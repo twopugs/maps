@@ -23,6 +23,9 @@
 									<Lotcode>
 										<xsl:value-of select="s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='LOT #']/s0:Value"/>
 									</Lotcode> 
+									<Lotcodes>
+										<xsl:value-of select="s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='LOT #']/s0:Value"/>
+									</Lotcodes> 
 								</xsl:for-each>
 
 								<xsl:if test="s0:Product/s0:ExpiryDate/text() != ''">
