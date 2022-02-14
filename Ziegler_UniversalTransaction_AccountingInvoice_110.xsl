@@ -76,15 +76,7 @@
                 <xsl:value-of select="userCSharp:CheckStringMandatory(userCSharp:ReplaceString($WayBillNum), 'Value Evaluated from WayBillNumber mapped to B303 from Xpath: ShipmentCollection/Shipment[WayBillType/Code=MWB or HWB]/WayBillNumber', $ACKey)"/>
               </B303>
               <B304>
-                <!--<xsl:value-of select="&quot;CC&quot;" />-->
-                <xsl:choose>
-                  <xsl:when test="s0:InvoiceTerm/text()='PIA'">
-                    <xsl:value-of select="&quot;PP&quot;" />
-                  </xsl:when>
-                  <xsl:otherwise>
-                    <xsl:value-of select="&quot;CC&quot;" />
-                  </xsl:otherwise>
-                </xsl:choose>
+              <xsl:value-of select="&quot;CC&quot;" />
               </B304>
               <B306>
                 <xsl:value-of select="userCSharp:CheckStringMandatory(userCSharp:ConvertDateValue(s0:PostDate/text()), 'Value Evaluated from PostDate mapped to B306 from Xpath: PostDate', $ACKey)"/>
