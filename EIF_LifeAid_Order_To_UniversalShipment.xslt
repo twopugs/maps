@@ -20,6 +20,7 @@
           <DeliveryRequiredBy>
             <xsl:value-of select="orderDate/text()" />
           </DeliveryRequiredBy>
+                    <DeliveryRequiredBy>DUMMY</DeliveryRequiredBy>
         </LocalProcessing>
 
           <Order>
