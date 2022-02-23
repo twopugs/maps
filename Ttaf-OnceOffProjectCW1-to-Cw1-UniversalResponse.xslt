@@ -196,6 +196,210 @@
 							<HTBEXIST>
 								<xsl:value-of select="string('True')"/>
 							</HTBEXIST>
+							
+							<!-- when childtype is HTB set first occurrence to MERGE -->
+										<xsl:if test="position() = 1">
+											<CusClassPartPivot Action="MERGE">
+												<PK>
+													<xsl:value-of select="s0:PK"/>
+												</PK>
+												<TariffNum>
+													<xsl:value-of select="s0:TariffNum"/>
+												</TariffNum>
+												
+												<AddInfoCollection>
+													<AddInfo>
+														<Key>
+															<xsl:value-of select="../s0:CusClassPartPivot[s0:ChildType='HTB']/s0:AddInfoCollection/s0:AddInfo/s0:Key"/>
+														</Key>
+														<Value>
+															<xsl:value-of select="../s0:CusClassPartPivot[s0:ChildType='HTB']/s0:AddInfoCollection/s0:AddInfo/s0:Value"/>
+														</Value>
+													</AddInfo>
+												</AddInfoCollection>
+															
+												<SupplementalTariff>
+													<xsl:value-of select="s0:SupplementalTariff"/>
+												</SupplementalTariff>
+												<ChildType>
+													<xsl:value-of select="s0:ChildType"/>
+												</ChildType>
+												<ChildQtyType>
+													<xsl:value-of select="s0:ChildQtyType"/>
+												</ChildQtyType>
+												<ChildQty>
+													<xsl:value-of select="s0:ChildQty"/>
+												</ChildQty>
+												<ChildListOrder>
+													<xsl:value-of select="s0:ChildListOrder"/>
+												</ChildListOrder>
+												<TariffChangePending>
+													<xsl:value-of select="s0:TariffChangePending"/>
+												</TariffChangePending>
+												<LastAuditedUser>
+													<xsl:value-of select="s0:LastAuditedUser"/>
+												</LastAuditedUser>
+												<LastAuditedDate>
+													<xsl:value-of select="s0:LastAuditedDate"/>
+												</LastAuditedDate>
+												<DateStart>
+													<xsl:value-of select="s0:DateStart"/>
+												</DateStart>
+												<DateEnd>
+													<xsl:value-of select="s0:DateEnd"/>
+												</DateEnd>
+												<ConcessionOrder>
+													<xsl:value-of select="s0:ConcessionOrder"/>
+												</ConcessionOrder>
+												<PrimaryPreference>
+													<xsl:value-of select="../s0:CusClassPartPivot[s0:ChildType='HTB' and s0:PrimaryPreference!='']/s0:PrimaryPreference"/>
+												</PrimaryPreference>
+												<RelatedIndicator>
+													<xsl:value-of select="s0:RelatedIndicator"/>
+												</RelatedIndicator>
+												<SecondaryPreference>
+													<xsl:value-of select="s0:SecondaryPreference"/>
+												</SecondaryPreference>
+												<ValuationCode>
+													<xsl:value-of select="s0:ValuationCode"/>
+												</ValuationCode>
+												<ValuationMarkup>
+													<xsl:value-of select="s0:ValuationMarkup"/>
+												</ValuationMarkup>
+												<UsageComment>
+													<xsl:value-of select="s0:UsageComment"/>
+												</UsageComment>
+												<NAddInfo>
+													<xsl:value-of select="s0:NAddInfo"/>
+												</NAddInfo>
+												<NDescription>
+													<xsl:value-of select="s0:NDescription"/>
+												</NDescription>
+												<Description>
+													<xsl:value-of select="../s0:CusClassPartPivot[s0:ChildType='HTB' and s0:Description!='']/s0:Description"/>
+												</Description>
+												<PartPivotUOM>
+													<xsl:value-of select="s0:PartPivotUOM"/>
+												</PartPivotUOM>
+												<OrgHeader />
+												<Country TableName="RefCountry">
+													<Code>
+														<xsl:value-of select="s0:Country/s0:Code"/>
+													</Code>
+													<PK>
+														<xsl:value-of select="s0:Country/s0:PK"/>
+													</PK>
+												</Country>
+											    <CusClassification />
+											    <CountryOfExport TableName="RefCountry" />
+												<CountryOfOrigin TableName="RefCountry" />
+												<OriginState TableName="RefCountryStates" />
+												 <TaxType TableName="RefDbEntZZ_RefCusTaxOrFee" />
+											</CusClassPartPivot>
+										</xsl:if>
+										
+										
+										<xsl:if test="position() != 1">
+											<CusClassPartPivot Action="DELETE">
+												<PK>
+													<xsl:value-of select="s0:PK"/>
+												</PK>
+												<TariffNum>
+													<xsl:value-of select="s0:TariffNum"/>
+												</TariffNum>
+												<xsl:if test="s0:AddInfoCollection != ''">
+													<AddInfoCollection>
+														<AddInfo>
+															<Key>
+																<xsl:value-of select="s0:AddInfoCollection/s0:AddInfo/s0:Key"/>
+															</Key>
+															<Value>
+																<xsl:value-of select="s0:AddInfoCollection/s0:AddInfo/s0:Value"/>
+															</Value>
+														</AddInfo>
+													</AddInfoCollection>
+												</xsl:if>
+												<SupplementalTariff>
+													<xsl:value-of select="s0:SupplementalTariff"/>
+												</SupplementalTariff>
+												<ChildType>
+													<xsl:value-of select="s0:ChildType"/>
+												</ChildType>
+												<ChildQtyType>
+													<xsl:value-of select="s0:ChildQtyType"/>
+												</ChildQtyType>
+												<ChildQty>
+													<xsl:value-of select="s0:ChildQty"/>
+												</ChildQty>
+												<ChildListOrder>
+													<xsl:value-of select="s0:ChildListOrder"/>
+												</ChildListOrder>
+												<TariffChangePending>
+													<xsl:value-of select="s0:TariffChangePending"/>
+												</TariffChangePending>
+												<LastAuditedUser>
+													<xsl:value-of select="s0:LastAuditedUser"/>
+												</LastAuditedUser>
+												<LastAuditedDate>
+													<xsl:value-of select="s0:LastAuditedDate"/>
+												</LastAuditedDate>
+												<DateStart>
+													<xsl:value-of select="s0:DateStart"/>
+												</DateStart>
+												<DateEnd>
+													<xsl:value-of select="s0:DateEnd"/>
+												</DateEnd>
+												<ConcessionOrder>
+													<xsl:value-of select="s0:ConcessionOrder"/>
+												</ConcessionOrder>
+												<PrimaryPreference>
+													<xsl:value-of select="s0:PrimaryPreference"/>
+												</PrimaryPreference>
+												<RelatedIndicator>
+													<xsl:value-of select="s0:RelatedIndicator"/>
+												</RelatedIndicator>
+												<SecondaryPreference>
+													<xsl:value-of select="s0:SecondaryPreference"/>
+												</SecondaryPreference>
+												<ValuationCode>
+													<xsl:value-of select="s0:ValuationCode"/>
+												</ValuationCode>
+												<ValuationMarkup>
+													<xsl:value-of select="s0:ValuationMarkup"/>
+												</ValuationMarkup>
+												<UsageComment>
+													<xsl:value-of select="s0:UsageComment"/>
+												</UsageComment>
+												<NAddInfo>
+													<xsl:value-of select="s0:NAddInfo"/>
+												</NAddInfo>
+												<NDescription>
+													<xsl:value-of select="s0:NDescription"/>
+												</NDescription>
+												<Description>
+													<xsl:value-of select="s0:Description"/>
+												</Description>
+												<PartPivotUOM>
+													<xsl:value-of select="s0:PartPivotUOM"/>
+												</PartPivotUOM>
+												<OrgHeader />
+												<Country TableName="RefCountry">
+													<Code>
+														<xsl:value-of select="s0:Country/s0:Code"/>
+													</Code>
+													<PK>
+														<xsl:value-of select="s0:Country/s0:PK"/>
+													</PK>
+												</Country>
+											    <CusClassification />
+											    <CountryOfExport TableName="RefCountry" />
+												<CountryOfOrigin TableName="RefCountry" />
+												<OriginState TableName="RefCountryStates" />
+												 <TaxType TableName="RefDbEntZZ_RefCusTaxOrFee" />
+											</CusClassPartPivot>
+										</xsl:if>
+							
+							
 						</xsl:for-each>
 						
 							<xsl:for-each select="s0:Data/s0:Native/s0:Body/s0:Product/s0:OrgSupplierPart/s0:CusClassPartPivotCollection/s0:CusClassPartPivot">
@@ -405,207 +609,6 @@
 											</CusClassPartPivot>
 										</xsl:when>
 										
-										<!-- when childtype is HTB set first occurrence to MERGE -->
-										<xsl:when test="$ChildType = 'HTB' and position() = '1'"> 
-											<CusClassPartPivot Action="MERGE">
-												<PK>
-													<xsl:value-of select="s0:PK"/>
-												</PK>
-												<TariffNum>
-													<xsl:value-of select="s0:TariffNum"/>
-												</TariffNum>
-												<xsl:if test="s0:AddInfoCollection != ''">
-													<AddInfoCollection>
-														<AddInfo>
-															<Key>
-																<xsl:value-of select="s0:AddInfoCollection/s0:AddInfo/s0:Key"/>
-															</Key>
-															<Value>
-																<xsl:value-of select="s0:AddInfoCollection/s0:AddInfo/s0:Value"/>
-															</Value>
-														</AddInfo>
-													</AddInfoCollection>
-												</xsl:if>
-												<SupplementalTariff>
-													<xsl:value-of select="s0:SupplementalTariff"/>
-												</SupplementalTariff>
-												<ChildType>
-													<xsl:value-of select="s0:ChildType"/>
-												</ChildType>
-												<ChildQtyType>
-													<xsl:value-of select="s0:ChildQtyType"/>
-												</ChildQtyType>
-												<ChildQty>
-													<xsl:value-of select="s0:ChildQty"/>
-												</ChildQty>
-												<ChildListOrder>
-													<xsl:value-of select="s0:ChildListOrder"/>
-												</ChildListOrder>
-												<TariffChangePending>
-													<xsl:value-of select="s0:TariffChangePending"/>
-												</TariffChangePending>
-												<LastAuditedUser>
-													<xsl:value-of select="s0:LastAuditedUser"/>
-												</LastAuditedUser>
-												<LastAuditedDate>
-													<xsl:value-of select="s0:LastAuditedDate"/>
-												</LastAuditedDate>
-												<DateStart>
-													<xsl:value-of select="s0:DateStart"/>
-												</DateStart>
-												<DateEnd>
-													<xsl:value-of select="s0:DateEnd"/>
-												</DateEnd>
-												<ConcessionOrder>
-													<xsl:value-of select="s0:ConcessionOrder"/>
-												</ConcessionOrder>
-												<PrimaryPreference>
-													<xsl:value-of select="s0:PrimaryPreference"/>
-												</PrimaryPreference>
-												<RelatedIndicator>
-													<xsl:value-of select="s0:RelatedIndicator"/>
-												</RelatedIndicator>
-												<SecondaryPreference>
-													<xsl:value-of select="s0:SecondaryPreference"/>
-												</SecondaryPreference>
-												<ValuationCode>
-													<xsl:value-of select="s0:ValuationCode"/>
-												</ValuationCode>
-												<ValuationMarkup>
-													<xsl:value-of select="s0:ValuationMarkup"/>
-												</ValuationMarkup>
-												<UsageComment>
-													<xsl:value-of select="s0:UsageComment"/>
-												</UsageComment>
-												<NAddInfo>
-													<xsl:value-of select="s0:NAddInfo"/>
-												</NAddInfo>
-												<NDescription>
-													<xsl:value-of select="s0:NDescription"/>
-												</NDescription>
-												<Description>
-													<xsl:value-of select="s0:Description"/>
-												</Description>
-												<PartPivotUOM>
-													<xsl:value-of select="s0:PartPivotUOM"/>
-												</PartPivotUOM>
-												<OrgHeader />
-												<Country TableName="RefCountry">
-													<Code>
-														<xsl:value-of select="s0:Country/s0:Code"/>
-													</Code>
-													<PK>
-														<xsl:value-of select="s0:Country/s0:PK"/>
-													</PK>
-												</Country>
-											    <CusClassification />
-											    <CountryOfExport TableName="RefCountry" />
-												<CountryOfOrigin TableName="RefCountry" />
-												<OriginState TableName="RefCountryStates" />
-												 <TaxType TableName="RefDbEntZZ_RefCusTaxOrFee" />
-											</CusClassPartPivot>
-										</xsl:when>
-										
-										<!-- when childtype is HTB set other occurrence to DELETE -->
-										<xsl:when test="$ChildType = 'HTB' and position() != '1'"> 
-											<CusClassPartPivot Action="DELETE">
-												<PK>
-													<xsl:value-of select="s0:PK"/>
-												</PK>
-												<TariffNum>
-													<xsl:value-of select="s0:TariffNum"/>
-												</TariffNum>
-												<xsl:if test="s0:AddInfoCollection != ''">
-													<AddInfoCollection>
-														<AddInfo>
-															<Key>
-																<xsl:value-of select="s0:AddInfoCollection/s0:AddInfo/s0:Key"/>
-															</Key>
-															<Value>
-																<xsl:value-of select="s0:AddInfoCollection/s0:AddInfo/s0:Value"/>
-															</Value>
-														</AddInfo>
-													</AddInfoCollection>
-												</xsl:if>
-												<SupplementalTariff>
-													<xsl:value-of select="s0:SupplementalTariff"/>
-												</SupplementalTariff>
-												<ChildType>
-													<xsl:value-of select="s0:ChildType"/>
-												</ChildType>
-												<ChildQtyType>
-													<xsl:value-of select="s0:ChildQtyType"/>
-												</ChildQtyType>
-												<ChildQty>
-													<xsl:value-of select="s0:ChildQty"/>
-												</ChildQty>
-												<ChildListOrder>
-													<xsl:value-of select="s0:ChildListOrder"/>
-												</ChildListOrder>
-												<TariffChangePending>
-													<xsl:value-of select="s0:TariffChangePending"/>
-												</TariffChangePending>
-												<LastAuditedUser>
-													<xsl:value-of select="s0:LastAuditedUser"/>
-												</LastAuditedUser>
-												<LastAuditedDate>
-													<xsl:value-of select="s0:LastAuditedDate"/>
-												</LastAuditedDate>
-												<DateStart>
-													<xsl:value-of select="s0:DateStart"/>
-												</DateStart>
-												<DateEnd>
-													<xsl:value-of select="s0:DateEnd"/>
-												</DateEnd>
-												<ConcessionOrder>
-													<xsl:value-of select="s0:ConcessionOrder"/>
-												</ConcessionOrder>
-												<PrimaryPreference>
-													<xsl:value-of select="s0:PrimaryPreference"/>
-												</PrimaryPreference>
-												<RelatedIndicator>
-													<xsl:value-of select="s0:RelatedIndicator"/>
-												</RelatedIndicator>
-												<SecondaryPreference>
-													<xsl:value-of select="s0:SecondaryPreference"/>
-												</SecondaryPreference>
-												<ValuationCode>
-													<xsl:value-of select="s0:ValuationCode"/>
-												</ValuationCode>
-												<ValuationMarkup>
-													<xsl:value-of select="s0:ValuationMarkup"/>
-												</ValuationMarkup>
-												<UsageComment>
-													<xsl:value-of select="s0:UsageComment"/>
-												</UsageComment>
-												<NAddInfo>
-													<xsl:value-of select="s0:NAddInfo"/>
-												</NAddInfo>
-												<NDescription>
-													<xsl:value-of select="s0:NDescription"/>
-												</NDescription>
-												<Description>
-													<xsl:value-of select="s0:Description"/>
-												</Description>
-												<PartPivotUOM>
-													<xsl:value-of select="s0:PartPivotUOM"/>
-												</PartPivotUOM>
-												<OrgHeader />
-												<Country TableName="RefCountry">
-													<Code>
-														<xsl:value-of select="s0:Country/s0:Code"/>
-													</Code>
-													<PK>
-														<xsl:value-of select="s0:Country/s0:PK"/>
-													</PK>
-												</Country>
-											    <CusClassification />
-											    <CountryOfExport TableName="RefCountry" />
-												<CountryOfOrigin TableName="RefCountry" />
-												<OriginState TableName="RefCountryStates" />
-												 <TaxType TableName="RefDbEntZZ_RefCusTaxOrFee" />
-											</CusClassPartPivot>
-										</xsl:when>
 										<xsl:otherwise>
 										</xsl:otherwise>
 									</xsl:choose>
