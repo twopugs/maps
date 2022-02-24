@@ -20,7 +20,6 @@
           <DeliveryRequiredBy>
             <xsl:value-of select="orderDate/text()" />
           </DeliveryRequiredBy>
-                    <DeliveryRequiredBy>DUMMY</DeliveryRequiredBy>
         </LocalProcessing>
 
           <Order>
@@ -78,11 +77,24 @@
             <City>
               <xsl:value-of select="shipTo/shippingAddress/city/text()" />
             </City>
-            <CompanyName>
-              <xsl:value-of select="shipTo/company/text()" />
-            </CompanyName>
+			
+			<xsl:choose>
+				<xsl:when test="shipTo/company != ''"> 
+					 <CompanyName>
+						<xsl:value-of select="shipTo/company/text()" />
+					</CompanyName>
+				</xsl:when>
+				<xsl:when test="shipTo/name != ''"> 
+					<CompanyName>
+						<xsl:value-of select="shipTo/name/text()" />
+					</CompanyName>
+				</xsl:when>
+				<xsl:otherwise>
+				</xsl:otherwise>
+			</xsl:choose>
+           
             <Email>
-              <xsl:value-of select="shipTo/email/text()" />
+				<xsl:value-of select="shipTo/email/text()" />
             </Email>
             <Country>
               <Code>
