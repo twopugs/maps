@@ -1,0 +1,22 @@
+    {
+        "OrderNumber": "{{content.OrderNumber}}",
+        "ShipTo": "{{content.ShipTo}}",
+        "DateShipped": "{{content.DateShipped}}",
+        "ShipMethod": "{{content.ShipMethod}}",
+        "ShipFromLocation": {{content.ShipFromLocation}},
+        "LineItems": [
+       {% for item in content.LineItems %}
+        {
+                "ProductSKU": "{{item.ProductSKU}}",
+                "QtyShipped": {{item.QtyShipped}},
+                "SerialNumbers": [
+
+       {% for sitem in item.SerialNumbers %}
+				"{{sitem}}",
+				              {% endfor %}  
+   
+            ]
+			},
+              {% endfor %}  
+        ]
+    }
