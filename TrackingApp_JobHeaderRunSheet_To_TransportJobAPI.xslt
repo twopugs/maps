@@ -38,9 +38,11 @@
             <legNote>
               <xsl:value-of select="instructions/text()" />
             </legNote>
-            <driverCode>
-              <xsl:value-of select="drv_code/text()" />
-            </driverCode>
+			<xsl:if test="drv_code !=''" >
+				<driverCode>
+					<xsl:value-of select="drv_code/text()" />
+				</driverCode>
+			</xsl:if>
             <pickup>
               <company>
                 <xsl:value-of select="col_name/text()" />
