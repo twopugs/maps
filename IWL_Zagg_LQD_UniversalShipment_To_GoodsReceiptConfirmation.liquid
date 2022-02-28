@@ -1,0 +1,23 @@
+     
+  {
+    "PONumber": "{{content.GoodsReceiptConfirmations.GoodsReceiptConfirmation.PONumber}}",
+    "ReceiptDate": "{{content.GoodsReceiptConfirmations.GoodsReceiptConfirmation.ReceiptDate | Date: "yyyy-MM-dd hh:dd:mm" }}",
+    "ReceiptNumber": "{{content.GoodsReceiptConfirmations.GoodsReceiptConfirmation.ReceiptNumber}}",
+    "LocationID": {{content.GoodsReceiptConfirmations.GoodsReceiptConfirmation.LocationID}},
+    "OrganizationID": {{content.GoodsReceiptConfirmations.GoodsReceiptConfirmation.OrganizationID}},
+    "ReceiptTypeID": {{content.GoodsReceiptConfirmations.GoodsReceiptConfirmation.ReceiptTypeID}},
+	 "LineItems": [
+   {% for item in content.GoodsReceiptConfirmations.GoodsReceiptConfirmation %}
+   {% if item.ItemNumber != nil %}
+   {
+    "ItemNumber": "{{ item.ItemNumber }}",
+      "ItemDescription": "{{ item.ItemDescription }}",
+      "QuantityReceived": {{ item.QuantityReceived }},
+      "QuantityDamaged": {{ item.QuantityDamaged }},
+    "DateReceived": "{{ item.DateReceived  | Date: "yyyy-MM-dd hh:dd:mm" }}",
+   
+  },
+   {% endif %}
+   {% endfor %}  
+  ]
+  }
