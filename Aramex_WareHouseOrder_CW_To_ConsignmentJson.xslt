@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-16"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:var="http://schemas.microsoft.com/BizTalk/2003/var" exclude-result-prefixes="msxsl var s0 json userCSharp" version="1.0" xmlns:s0="http://www.cargowise.com/Schemas/Universal/2011/11" xmlns:userCSharp="http://schemas.microsoft.com/BizTalk/2003/userCSharp" xmlns:json='http://james.newtonking.com/projects/json'>
   <xsl:output omit-xml-declaration="yes" method="xml" version="1.0" />
   <xsl:template match="/">
@@ -70,7 +70,16 @@
               </StreetAddress>
               <AdditionalDetails/>
               <Locality>
-                <xsl:value-of select="s0:Shipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeAddress']/s0:City"/>
+              
+				  <xsl:choose>
+					<xsl:when test="string-length(s0:Shipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeAddress']/s0:Address2)>1">
+						<xsl:value-of select="s0:Shipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeAddress']/s0:Address2" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="s0:Shipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeAddress']/s0:City" />
+					</xsl:otherwise>
+				  </xsl:choose>
+				
               </Locality>
               <StateOrProvince>
                 <xsl:value-of select="s0:Shipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeAddress']/s0:State"/>
