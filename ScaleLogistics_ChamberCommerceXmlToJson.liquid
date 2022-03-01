@@ -1,0 +1,73 @@
+{
+  "consignee": {
+    "buildingOrStreetNumber": "{{content.consignee.buildingOrStreetNumber}}",
+    "city": "{{content.consignee.city}}",
+    "countryIsoCode": "{{content.consignee.countryIsoCode}}",
+    "name": "{{content.consignee.name}}",
+    "postcode":  "{{content.consignee.postcode}}",
+    "streetAddress":  "{{content.consignee.streetAddress}}",
+    "suburb":  "{{content.consignee.suburb}}",
+  },
+  "eCertifyCompanyReference": "{{content.eCertifyCompanyReference}}",
+  "exporter": {
+    "buildingOrStreetNumber": "{{content.exporter.buildingOrStreetNumber}}",
+    "city": "{{content.exporter.city}}",
+    "countryIsoCode": "{{content.exporter.countryIsoCode}}",
+    "name": "{{content.exporter.name}}",
+    "postcode": "{{content.exporter.postcode}}",
+    "streetAddress":"{{content.exporter.streetAddress}}",
+    "suburb": "{{content.exporter.suburb}}",
+  },
+  {% if content.firstProducer != null and content.firstProducer != "" %}
+
+  "firstProducer": {
+    "buildingOrStreetNumber": "{{content.firstProducer.buildingOrStreetNumber}}",
+    "city": "{{content.firstProducer.city}}",
+    "countryIsoCode": "{{content.firstProducer.countryIsoCode}}",
+    "name": "{{content.firstProducer.name}}",
+    "postcode": "{{content.firstProducer.postcode}}",
+    "streetAddress": "{{content.firstProducer.streetAddress}}",
+    "suburb": "{{content.firstProducer.suburb}}",
+  },
+  {% endif %}
+
+
+  "isDraft": {{content.isDraft}},
+  "items": [
+   {% for item in content.items %}
+   {
+    "goodsDescription": "{{ item.goodsDescription }}",
+    "grossWeight": {{ item.grossWeight }},
+    "hsCode": "{{ item.hsCode }}",
+    "invoiceCurrencyIsoCode": "{{ item.invoiceCurrencyIsoCode }}",
+    "invoiceDate": "{{ item.invoiceDate  | Date: "yyyy-MM-ddThh:mm:00" }}",
+    "invoiceNumber": "{{ item.invoiceNumber }}",
+    "invoiceValue": {{ item.invoiceValue }},
+    "originCriterionName": "{{ item.originCriterionName }}",
+    "packageMarkings": "{{ item.packageMarkings }}",
+    "quantity": {{ item.quantity }},
+    "quantityUnitName": "{{ item.quantityUnitName }}",
+    "weightUnitName": "{{ item.weightUnitName }}"
+  },
+   {% endfor %}  
+  ],
+  "remarks":  "{{content.remarks}}",
+  "signatoryEmail":  "{{content.signatoryEmail}}",
+  "retroactive": {{content.retroactive}},
+  "backToBack": {{content.backToBack}},
+  "backToBackIntermediaryCountryIsoCode": "{{content.backToBackIntermediaryCountryIsoCode}}",
+  "thirdParty": {{content.thirdParty}},
+  "thirdPartyInvoicingCompany": "{{content.thirdPartyInvoicingCompany}}",
+  "deMinimis": {{content.deMinimis}},
+  "accumulation": {{content.accumulation}},
+  "specialInstructions": "{{content.specialInstructions}}",
+  "transport": {
+    "modeOfTransport": "{{content.transport.modeOfTransport}}",
+    "portOfDischargeCode": "{{content.transport.portOfDischargeCode}}",
+    "portOfLoadingCode": "{{content.transport.portOfLoadingCode}}",
+    "shipmentDate": "{{content.transport.shipmentDate | Date: "yyyy-MM-ddThh:mm:00"}}",
+    "countryOfDischargeIsoCode": "{{content.transport.countryOfDischargeIsoCode}}",
+    "enRoutePorts": "{{content.transport.enRoutePorts}}",
+    "vesselName": "{{content.transport.vesselName}}",
+  }
+}
