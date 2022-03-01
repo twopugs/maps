@@ -118,18 +118,21 @@
 		<CustomizedFieldCollection>
 			<CustomizedField>
 				<Key>MachShip_Type</Key>
+				<DataType>String</DataType>
 				<Value>
 					<xsl:value-of select="OrderHeader/Machship_type/text()" />
 				</Value>
 			</CustomizedField>
 			<CustomizedField>
 				<Key>Machship_reference1</Key>
+				<DataType>String</DataType>
 				<Value>
 					<xsl:value-of select="OrderHeader/Machship_reference1/text()" />
 				</Value>
 			</CustomizedField>
 			<CustomizedField>
 				<Key>Machship_reference2</Key>
+				<DataType>String</DataType>
 				<Value>
 					<xsl:value-of select="OrderHeader/Machship_reference2/text()" />
 				</Value>
