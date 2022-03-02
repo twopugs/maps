@@ -72,10 +72,12 @@
 								<Code>CAD</Code>
 							</OSCurrency>
 							<TransactionDate>
-								<xsl:value-of select="userCSharp:GetQebecDate()"/>
+								<xsl:value-of select="normalize-space(rv/text())"/>
+								<!-- <xsl:value-of select="userCSharp:GetQebecDate()"/> -->
 							</TransactionDate>
 							<PostDate>
-								<xsl:value-of select="userCSharp:GetQebecDate()"/>
+								<xsl:value-of select="normalize-space(rv/text())"/>
+								<!-- <xsl:value-of select="userCSharp:GetQebecDate()"/> -->
 							</PostDate>
 							<TransactionType>INV</TransactionType>
 							<Ledger>AR</Ledger>
