@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-16"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:var="http://schemas.microsoft.com/BizTalk/2003/var" exclude-result-prefixes="msxsl var s0 userCSharp" version="1.0" xmlns:s0="http://Godfrey.OrderRequest_IFCSHIP_FF" xmlns:ns0="http://www.cargowise.com/Schemas/Universal/2011/11" xmlns:userCSharp="http://schemas.microsoft.com/BizTalk/2003/userCSharp">
   <xsl:output omit-xml-declaration="yes" method="xml" version="1.0" />
   <xsl:template match="/">
@@ -114,8 +114,30 @@
                 </AddressType>
                 <OrganizationCode>GODFREYS</OrganizationCode>
               </OrganizationAddress>
-            
         </OrganizationAddressCollection>
+		<CustomizedFieldCollection>
+			<CustomizedField>
+				<Key>MachShip_Type</Key>
+				<DataType>String</DataType>
+				<Value>
+					<xsl:value-of select="OrderHeader/Machship_type/text()" />
+				</Value>
+			</CustomizedField>
+			<CustomizedField>
+				<Key>Machship_reference1</Key>
+				<DataType>String</DataType>
+				<Value>
+					<xsl:value-of select="OrderHeader/Machship_reference1/text()" />
+				</Value>
+			</CustomizedField>
+			<CustomizedField>
+				<Key>Machship_reference2</Key>
+				<DataType>String</DataType>
+				<Value>
+					<xsl:value-of select="OrderHeader/Machship_reference2/text()" />
+				</Value>
+			</CustomizedField>
+		</CustomizedFieldCollection>
       </Shipment>
     </UniversalShipment>
   </xsl:template>
