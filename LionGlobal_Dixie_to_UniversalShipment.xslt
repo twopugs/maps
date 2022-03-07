@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:var="http://schemas.microsoft.com/BizTalk/2003/var" exclude-result-prefixes="msxsl var userCSharp" version="1.0" xmlns:ns0="http://www.cargowise.com/Schemas/Universal/2011/11" xmlns:userCSharp="http://schemas.microsoft.com/BizTalk/2003/userCSharp">
 	<xsl:output omit-xml-declaration="yes" method="xml" version="1.0" />
 	<xsl:template match="/">
@@ -6,6 +6,9 @@
 	</xsl:template>
 	<xsl:template match="/CPPOHD_D">
 
+		
+
+		<UniversalShipment>
 		<xsl:variable name="var_DEL_WHCODE">
 			<xsl:choose>
 				<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'BAYS'">
@@ -25,64 +28,62 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable> 
-
-		<ns0:UniversalShipment>
-			<ns0:Shipment>
-				<ns0:AdditionalTerms>
+			<Shipment>
+				<AdditionalTerms>
 					<xsl:value-of select="normalize-space(POHEADER/DELCUST/text())" />
-				</ns0:AdditionalTerms>
-				<ns0:BookingConfirmationReference>
+				</AdditionalTerms>
+				<BookingConfirmationReference>
 					<xsl:value-of select="normalize-space(POHEADER/CUST_REF/text())" />
-				</ns0:BookingConfirmationReference>
-				<ns0:DateCollection>
-					<ns0:Date>
-						<ns0:Value>
+				</BookingConfirmationReference>
+				<DateCollection>
+					<Date>
+						<Value>
 							<xsl:value-of select="concat(substring(normalize-space(POHEADER/ORDERDATE/text()), 1, 4), '-', substring(normalize-space(POHEADER/ORDERDATE/text()), 5, 2), '-', substring(normalize-space(POHEADER/ORDERDATE/text()), 7, 2), 'T00:00:00')"/>
-						</ns0:Value>
-						<ns0:Type>OrderDate</ns0:Type>
-						<ns0:IsEstimate>false</ns0:IsEstimate>
-					</ns0:Date>
-					<ns0:Date>
-						<ns0:Value>
+						</Value>
+						<Type>OrderDate</Type>
+						<IsEstimate>false</IsEstimate>
+					</Date>
+					<Date>
+						<Value>
 							<xsl:value-of select="concat(substring(normalize-space(POHEADER/SHIPBEFORE/text()), 1, 4), '-', substring(normalize-space(POHEADER/SHIPBEFORE/text()), 5, 2), '-', substring(normalize-space(POHEADER/SHIPBEFORE/text()), 7, 2), 'T00:00:00')"/>
-						</ns0:Value>
-						<ns0:Type>ExWorksRequiredBy</ns0:Type>
-						<ns0:IsEstimate>false</ns0:IsEstimate>
-					</ns0:Date>
-				</ns0:DateCollection>
-				<ns0:DataContext>
-					<ns0:DataTargetCollection>
-						<ns0:DataTarget>
-							<ns0:Type>OrderManagerOrder</ns0:Type>
-						</ns0:DataTarget>
-					</ns0:DataTargetCollection>
-				</ns0:DataContext>
-				<ns0:CommercialInfo>
-					<ns0:CommercialInvoiceCollection>
-						<ns0:CommercialInvoice>
-							<ns0:InvoiceNumber>
+						</Value>
+						<Type>ExWorksRequiredBy</Type>
+						<IsEstimate>false</IsEstimate>
+					</Date>
+				</DateCollection>
+				<DataContext>
+					<DataTargetCollection>
+						<DataTarget>
+							<Type>OrderManagerOrder</Type>
+						</DataTarget>
+					</DataTargetCollection>
+				</DataContext>
+				<CommercialInfo>
+					<CommercialInvoiceCollection>
+						<CommercialInvoice>
+							<InvoiceNumber>
 								<xsl:value-of select="normalize-space(POHEADER/PI_NUMBER/text())" />
-							</ns0:InvoiceNumber>
-							<ns0:InvoiceDate>
+							</InvoiceNumber>
+							<InvoiceDate>
 								<xsl:value-of select="concat(substring(normalize-space(POHEADER/ORDERDATE/text()), 1, 4), '-', substring(normalize-space(POHEADER/ORDERDATE/text()), 5, 2), '-', substring(normalize-space(POHEADER/ORDERDATE/text()), 7, 2), 'T00:00:00')"/>
-							</ns0:InvoiceDate>
-						</ns0:CommercialInvoice>
-					</ns0:CommercialInvoiceCollection>
-				</ns0:CommercialInfo>
-				<ns0:FreightRateCurrency>
-					<ns0:Code>
+							</InvoiceDate>
+						</CommercialInvoice>
+					</CommercialInvoiceCollection>
+				</CommercialInfo>
+				<FreightRateCurrency>
+					<Code>
 						<xsl:value-of select="normalize-space(POHEADER/CURRENCY/text())" />
-					</ns0:Code>
-				</ns0:FreightRateCurrency>
-				<ns0:LocalProcessing>
-					<ns0:DeliveryRequiredBy>
+					</Code>
+				</FreightRateCurrency>
+				<LocalProcessing>
+					<DeliveryRequiredBy>
 						<xsl:value-of select="concat(substring(normalize-space(POHEADER/REQWHETA/text()), 1, 4), '-', substring(normalize-space(POHEADER/REQWHETA/text()), 5, 2), '-', substring(normalize-space(POHEADER/REQWHETA/text()), 7, 2), 'T00:00:00')"/>
-					</ns0:DeliveryRequiredBy>
-				</ns0:LocalProcessing>
+					</DeliveryRequiredBy>
+				</LocalProcessing>
 
 
-				<ns0:PortOfDestination>
-					<ns0:Code>
+				<PortOfDestination>
+					<Code>
 						<xsl:choose>
 							<xsl:when test="POHEADER/DESTPORT/text() != ''">
 								<xsl:value-of select="normalize-space(userCSharp:PortOfDestinationConvert(POHEADER/DESTPORT/text()))" />
@@ -91,10 +92,10 @@
 								<xsl:value-of select="$var_DEL_WHCODE"/>
 							</xsl:otherwise>
 						</xsl:choose>
-					</ns0:Code>
-				</ns0:PortOfDestination>
-				<ns0:PortOfDischarge>
-					<ns0:Code>
+					</Code>
+				</PortOfDestination>
+				<PortOfDischarge>
+					<Code>
 						<xsl:choose>
 							<xsl:when test="POHEADER/DESTPORT/text() != ''">
 								<xsl:value-of select="normalize-space(userCSharp:PortOfDestinationConvert(POHEADER/DESTPORT/text()))" />
@@ -103,1486 +104,1486 @@
 								<xsl:value-of select="$var_DEL_WHCODE"/>
 							</xsl:otherwise>
 						</xsl:choose>
-					</ns0:Code>
-				</ns0:PortOfDischarge>
-				<ns0:ShipmentIncoTerm>
-					<ns0:Code>
+					</Code>
+				</PortOfDischarge>
+				<ShipmentIncoTerm>
+					<Code>
 						<xsl:value-of select="normalize-space(POHEADER/FRTTERM/text())" />
-					</ns0:Code>
-				</ns0:ShipmentIncoTerm>
-				<ns0:TransportMode>
-					<ns0:Code>
+					</Code>
+				</ShipmentIncoTerm>
+				<TransportMode>
+					<Code>
 						<xsl:value-of select="normalize-space(POHEADER/SHIPMODE/text())" />
-					</ns0:Code>
-				</ns0:TransportMode>
-				<ns0:Order>
-					<ns0:OrderNumber>
+					</Code>
+				</TransportMode>
+				<Order>
+					<OrderNumber>
 						<xsl:value-of select="concat('DCE', userCSharp:ReplaceString(normalize-space(POHEADER/PONO/text())))" />
-					</ns0:OrderNumber>
-					<ns0:Status>
-						<ns0:Code>INC</ns0:Code>
-					</ns0:Status>
-					<ns0:OrderLineCollection>
+					</OrderNumber>
+					<Status>
+						<Code>INC</Code>
+					</Status>
+					<OrderLineCollection>
 						<xsl:for-each select="POHEADER/PODETAILS">
 							<xsl:for-each select="QUANTITY">
-								<ns0:OrderLine>
-									<ns0:LineNumber>
+								<OrderLine>
+									<LineNumber>
 										<xsl:value-of select="normalize-space(../LINENO/text())" />
-									</ns0:LineNumber>
-									<ns0:OrderedQty>
+									</LineNumber>
+									<OrderedQty>
 										<xsl:value-of select="normalize-space(./text())" />
-									</ns0:OrderedQty>
-									<ns0:PackageQty>
+									</OrderedQty>
+									<PackageQty>
 										<xsl:value-of select="normalize-space(../PACKITEMS/text())" />
-									</ns0:PackageQty>
+									</PackageQty>
 									<xsl:for-each select="../IMPPRODCODE">
-										<ns0:Product>
-											<ns0:Code>
+										<Product>
+											<Code>
 												<xsl:value-of select="normalize-space(./text())" />
-											</ns0:Code>
-											<ns0:Description>
+											</Code>
+											<Description>
 												<xsl:value-of select="normalize-space(../PRODDESC/text())" />
-											</ns0:Description>
-										</ns0:Product>
+											</Description>
+										</Product>
 									</xsl:for-each>
-									<ns0:UnitPriceRecommended>
+									<UnitPriceRecommended>
 										<xsl:value-of select="normalize-space(../UNITPRICE/text())" />
-									</ns0:UnitPriceRecommended>
-									<ns0:Volume>
+									</UnitPriceRecommended>
+									<Volume>
 										<xsl:value-of select="normalize-space(../VOLUME/text())" />
-									</ns0:Volume>
-									<ns0:Weight>
+									</Volume>
+									<Weight>
 										<xsl:value-of select="normalize-space(../WEIGHT/text())" />
-									</ns0:Weight>
-									<ns0:CustomizedFieldCollection>
+									</Weight>
+									<CustomizedFieldCollection>
 										<xsl:for-each select="../SUPPPRODCODE">
-											<ns0:CustomizedField>
-												<ns0:Key>
+											<CustomizedField>
+												<Key>
 													<xsl:text>SELLER_PID</xsl:text>
-												</ns0:Key>
-												<ns0:DataType>
+												</Key>
+												<DataType>
 													<xsl:text>String</xsl:text>
-												</ns0:DataType>
-												<ns0:Value>
+												</DataType>
+												<Value>
 													<xsl:value-of select="normalize-space(./text())" />
-												</ns0:Value>
-											</ns0:CustomizedField>
+												</Value>
+											</CustomizedField>
 										</xsl:for-each>
 										<xsl:for-each select="../SUPPPRODDESC">
-											<ns0:CustomizedField>
-												<ns0:Key>
+											<CustomizedField>
+												<Key>
 													<xsl:text>SELLER_DESC</xsl:text>
-												</ns0:Key>
-												<ns0:DataType>
+												</Key>
+												<DataType>
 													<xsl:text>String</xsl:text>
-												</ns0:DataType>
-												<ns0:Value>
+												</DataType>
+												<Value>
 													<xsl:value-of select="normalize-space(./text())" />
-												</ns0:Value>
-											</ns0:CustomizedField>
+												</Value>
+											</CustomizedField>
 										</xsl:for-each>
-									</ns0:CustomizedFieldCollection>
-									<ns0:AdditionalInformation>
+									</CustomizedFieldCollection>
+									<AdditionalInformation>
 										<xsl:value-of select="concat(normalize-space(../../DEL_ADDR1/text()), ' ', normalize-space(../../DEL_ADDR2/text()), ' ',  normalize-space(../../DEL_ADDR3/text()), ' ', normalize-space(../../DEL_ADDR4/text()), ' ', normalize-space(../../DEL_ADDRCTY/text()))"/>
-									</ns0:AdditionalInformation>
-								</ns0:OrderLine>
+									</AdditionalInformation>
+								</OrderLine>
 							</xsl:for-each>
 						</xsl:for-each>
-					</ns0:OrderLineCollection>
-				</ns0:Order>
+					</OrderLineCollection>
+				</Order>
 
 				<xsl:choose>
 					<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'DIR'">
-						<ns0:ServiceLevel>
-							<ns0:Code>DIR</ns0:Code>
-						</ns0:ServiceLevel>
+						<ServiceLevel>
+							<Code>DIR</Code>
+						</ServiceLevel>
 					</xsl:when>
 					<xsl:otherwise>
-						<ns0:ServiceLevel>
-							<ns0:Code>STD</ns0:Code>
-						</ns0:ServiceLevel>
+						<ServiceLevel>
+							<Code>STD</Code>
+						</ServiceLevel>
 					</xsl:otherwise>
 				</xsl:choose>
 
-				<ns0:OrganizationAddressCollection>
+				<OrganizationAddressCollection>
 
 					<xsl:choose>
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'AXFURN'">
-							<ns0:AddressType>
+							<AddressType>
 								<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-							</ns0:AddressType>
-							<ns0:Address1>Lot 9633, Jalan Ayer Manis</ns0:Address1>
-							<ns0:Address2>Parit Jawa, 84150</ns0:Address2>
-							<ns0:City/>
-							<ns0:CompanyName>AX FURNITURE SDN BHD</ns0:CompanyName>
-							<ns0:Contact/>
-							<ns0:Email>marketing1@axfurniture.com</ns0:Email>
-							<ns0:Fax>00116069868004</ns0:Fax>
-							<ns0:Phone>00116069868007</ns0:Phone>
+							</AddressType>
+							<Address1>Lot 9633, Jalan Ayer Manis</Address1>
+							<Address2>Parit Jawa, 84150</Address2>
+							<City/>
+							<CompanyName>AX FURNITURE SDN BHD</CompanyName>
+							<Contact/>
+							<Email>marketing1@axfurniture.com</Email>
+							<Fax>00116069868004</Fax>
+							<Phone>00116069868007</Phone>
 						</xsl:when>
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'BESTBETECK'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>PTD 10636, JALAN KEMPAS 1</ns0:Address1>
-								<ns0:Address2>KAWASAN PERINDUSTRIAN</ns0:Address2>
-								<ns0:City/>
-								<ns0:CompanyName>BEST-BETECK FURNITURE SDN BHD</ns0:CompanyName>
-								<ns0:Contact/>
-								<ns0:Email>marketing2@bestbeteck.com; toh@bestbeteck.com</ns0:Email>
-								<ns0:Fax/>
-								<ns0:Phone>6069866967</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>PTD 10636, JALAN KEMPAS 1</Address1>
+								<Address2>KAWASAN PERINDUSTRIAN</Address2>
+								<City/>
+								<CompanyName>BEST-BETECK FURNITURE SDN BHD</CompanyName>
+								<Contact/>
+								<Email>marketing2@bestbeteck.com; toh@bestbeteck.com</Email>
+								<Fax/>
+								<Phone>6069866967</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = ''">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1/>
-								<ns0:Address2/>
-								<ns0:City/>
-								<ns0:CompanyName/>
-								<ns0:Contact/>
-								<ns0:Email/>
-								<ns0:Fax/>
-								<ns0:Phone/>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1/>
+								<Address2/>
+								<City/>
+								<CompanyName/>
+								<Contact/>
+								<Email/>
+								<Fax/>
+								<Phone/>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'BOAS'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>UNIT A, 16F.,</ns0:Address1>
-								<ns0:Address2>88 COMMERCIAL BUILDING</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>BOAS FURNITURE COMPANY LIMITED</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>owen@boasfurniture.com</ns0:Email>
-								<ns0:Fax>25436637</ns0:Fax>
-								<ns0:Phone>25435013</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>UNIT A, 16F.,</Address1>
+								<Address2>88 COMMERCIAL BUILDING</Address2>
+								<City>
+								</City>
+								<CompanyName>BOAS FURNITURE COMPANY LIMITED</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>owen@boasfurniture.com</Email>
+								<Fax>25436637</Fax>
+								<Phone>25435013</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'BURDEN'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>Limited</ns0:Address1>
-								<ns0:Address2>Suite 2001 20F</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>Burden Furniture (Inter'nal) L</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>lindsay@burdenfurniture.com</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>963807107</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>Limited</Address1>
+								<Address2>Suite 2001 20F</Address2>
+								<City>
+								</City>
+								<CompanyName>Burden Furniture (Inter'nal) L</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>lindsay@burdenfurniture.com</Email>
+								<Fax>
+								</Fax>
+								<Phone>963807107</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'CKBAN'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>No 3799 Mk. 11. Changkat</ns0:Address1>
-								<ns0:Address2>14300 Nibong Tebal.</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>C.K. BAN SOON LEE INDUSTRIES</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>sales@ckbsl.com.my</ns0:Email>
-								<ns0:Fax>00116045822999</ns0:Fax>
-								<ns0:Phone>00116045822111</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>No 3799 Mk. 11. Changkat</Address1>
+								<Address2>14300 Nibong Tebal.</Address2>
+								<City>
+								</City>
+								<CompanyName>C.K. BAN SOON LEE INDUSTRIES</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>sales@ckbsl.com.my</Email>
+								<Fax>00116045822999</Fax>
+								<Phone>00116045822111</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'CLEMUSD'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>Unit G63, 63-85 Turner St</ns0:Address1>
-								<ns0:Address2>Port Melbourne</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>Clemenger Inter'nal Freight</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>mpavlakos@cif.com.au</ns0:Email>
-								<ns0:Fax>96819338</ns0:Fax>
-								<ns0:Phone>92059100</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>Unit G63, 63-85 Turner St</Address1>
+								<Address2>Port Melbourne</Address2>
+								<City>
+								</City>
+								<CompanyName>Clemenger Inter'nal Freight</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>mpavlakos@cif.com.au</Email>
+								<Fax>96819338</Fax>
+								<Phone>92059100</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'COMFY'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>LOT 3993 JALAN TEY MIA JEN</ns0:Address1>
-								<ns0:Address2>KG. KEBUN SAYUR BUKIT BAKRI</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>COMFY FACTOR SDN BHD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>sam@comfyfactor.com</ns0:Email>
-								<ns0:Fax>9868551</ns0:Fax>
-								<ns0:Phone>9866500</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>LOT 3993 JALAN TEY MIA JEN</Address1>
+								<Address2>KG. KEBUN SAYUR BUKIT BAKRI</Address2>
+								<City>
+								</City>
+								<CompanyName>COMFY FACTOR SDN BHD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>sam@comfyfactor.com</Email>
+								<Fax>9868551</Fax>
+								<Phone>9866500</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'DCEGLOBAL'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>NO5, 1ST FLOOR, JALAN PUNCAK 2</ns0:Address1>
-								<ns0:Address2>PEKAN PARIT BAKAR, PARIT BAKAR</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>DCE GLOBAL SDN BHD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>celine@dce-global.com</ns0:Email>
-								<ns0:Fax>9811177</ns0:Fax>
-								<ns0:Phone>9811144</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>NO5, 1ST FLOOR, JALAN PUNCAK 2</Address1>
+								<Address2>PEKAN PARIT BAKAR, PARIT BAKAR</Address2>
+								<City>
+								</City>
+								<CompanyName>DCE GLOBAL SDN BHD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>celine@dce-global.com</Email>
+								<Fax>9811177</Fax>
+								<Phone>9811144</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'EDENLAND'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>EDENLAND ENTERPRISES PTY LTD</ns0:Address1>
-								<ns0:Address2>ROOM 804 SINO CENTRE</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>EDEN LAND ENTERPRISES PTD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>yokey@edenlandmsia.com</ns0:Email>
-								<ns0:Fax>78740893</ns0:Fax>
-								<ns0:Phone>78740886</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>EDENLAND ENTERPRISES PTY LTD</Address1>
+								<Address2>ROOM 804 SINO CENTRE</Address2>
+								<City>
+								</City>
+								<CompanyName>EDEN LAND ENTERPRISES PTD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>yokey@edenlandmsia.com</Email>
+								<Fax>78740893</Fax>
+								<Phone>78740886</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'ELEGANTWOO'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>POS 356 BT 4-1/2 PARIT BAKAR</ns0:Address1>
-								<ns0:Address2>JALAN TEMENGGUNG AHMAD</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>ELEGANT WOOD-LINK SDH BHD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>celine@dce-global.com</ns0:Email>
-								<ns0:Fax>6069813853</ns0:Fax>
-								<ns0:Phone>6069811328</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>POS 356 BT 4-1/2 PARIT BAKAR</Address1>
+								<Address2>JALAN TEMENGGUNG AHMAD</Address2>
+								<City>
+								</City>
+								<CompanyName>ELEGANT WOOD-LINK SDH BHD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>celine@dce-global.com</Email>
+								<Fax>6069813853</Fax>
+								<Phone>6069811328</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'EON'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>SHANGEN INDUSTRILA ESTATE</ns0:Address1>
-								<ns0:Address2>XIQIAO TOWN, NANHAI DISTRICT,</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>EON TECHNOLOGY INDUSTRY CO LTD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>ivy@jbmfurniture.com</ns0:Email>
-								<ns0:Fax>5781890079</ns0:Fax>
-								<ns0:Phone>5781890078</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>SHANGEN INDUSTRILA ESTATE</Address1>
+								<Address2>XIQIAO TOWN, NANHAI DISTRICT,</Address2>
+								<City>
+								</City>
+								<CompanyName>EON TECHNOLOGY INDUSTRY CO LTD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>ivy@jbmfurniture.com</Email>
+								<Fax>5781890079</Fax>
+								<Phone>5781890078</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'FOSHAN'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>WOODEN PRODUCTS CO., LTD</ns0:Address1>
-								<ns0:Address2>2ND INDUSTRIAL AREA,</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>GUANGDONG SUNTEAM STEEL</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>lindy@sunteam.com.cn</ns0:Email>
-								<ns0:Fax>75728109448</ns0:Fax>
-								<ns0:Phone>75728917601</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>WOODEN PRODUCTS CO., LTD</Address1>
+								<Address2>2ND INDUSTRIAL AREA,</Address2>
+								<City>
+								</City>
+								<CompanyName>GUANGDONG SUNTEAM STEEL</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>lindy@sunteam.com.cn</Email>
+								<Fax>75728109448</Fax>
+								<Phone>75728917601</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'HAINBOYANG'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1> LTD</ns0:Address1>
-								<ns0:Address2>NO 18 ZHIJIANG ROAD</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>HAINING BOYANG FURNITURE CO LT</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>nancy@boyang-furniture.com</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>057387933009</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1> LTD</Address1>
+								<Address2>NO 18 ZHIJIANG ROAD</Address2>
+								<City>
+								</City>
+								<CompanyName>HAINING BOYANG FURNITURE CO LT</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>nancy@boyang-furniture.com</Email>
+								<Fax>
+								</Fax>
+								<Phone>057387933009</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'HOMEUP'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>LOT8726, PTD 6023, BATU 8,</ns0:Address1>
-								<ns0:Address2>KAWASAN PERINDUSTRIAN</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>HOME UPHOLSTERY INDUSTRIES SDN</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>swwong@eritz.com.my</ns0:Email>
-								<ns0:Fax>6069860942</ns0:Fax>
-								<ns0:Phone>606986500</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>LOT8726, PTD 6023, BATU 8,</Address1>
+								<Address2>KAWASAN PERINDUSTRIAN</Address2>
+								<City>
+								</City>
+								<CompanyName>HOME UPHOLSTERY INDUSTRIES SDN</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>swwong@eritz.com.my</Email>
+								<Fax>6069860942</Fax>
+								<Phone>606986500</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'HUAXIA'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>XIAOFENG TOWN ANJI COUNTY</ns0:Address1>
-								<ns0:Address2>HUZHOU CITY</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>ZHEJIANG HUAXIA BAMBOO and WOOD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>emily@valkahome.com</ns0:Email>
-								<ns0:Fax>05725515128</ns0:Fax>
-								<ns0:Phone>05725118739</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>XIAOFENG TOWN ANJI COUNTY</Address1>
+								<Address2>HUZHOU CITY</Address2>
+								<City>
+								</City>
+								<CompanyName>ZHEJIANG HUAXIA BAMBOO and WOOD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>emily@valkahome.com</Email>
+								<Fax>05725515128</Fax>
+								<Phone>05725118739</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'INTERMULTI'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>NO 23M JALAN PESERAI PT LAMAN</ns0:Address1>
-								<ns0:Address2>83500 PT SULONG BATU PAHAT</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>INTER MULTI FURNITURE SDN BHD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>jyin@imf-furniture.com</ns0:Email>
-								<ns0:Fax>6074188833</ns0:Fax>
-								<ns0:Phone>6074188333</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>NO 23M JALAN PESERAI PT LAMAN</Address1>
+								<Address2>83500 PT SULONG BATU PAHAT</Address2>
+								<City>
+								</City>
+								<CompanyName>INTER MULTI FURNITURE SDN BHD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>jyin@imf-furniture.com</Email>
+								<Fax>6074188833</Fax>
+								<Phone>6074188333</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'JIASIN'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>NO.29 CHENJIANG ROAD</ns0:Address1>
-								<ns0:Address2>CHENJIANG TOWN</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>JIASIN FURNISHINGS LIMITED</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>jorgetct@126.com</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>8613680763616</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>NO.29 CHENJIANG ROAD</Address1>
+								<Address2>CHENJIANG TOWN</Address2>
+								<City>
+								</City>
+								<CompanyName>JIASIN FURNISHINGS LIMITED</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>jorgetct@126.com</Email>
+								<Fax>
+								</Fax>
+								<Phone>8613680763616</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'JINHUABOYA'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>(CAREFREE)</ns0:Address1>
-								<ns0:Address2>1399 EAST JINGANG ROAD,</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>JINHUA BOYA FURNITURE CO.LTD.</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>dengjiemax@126.com</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>57982928688</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>(CAREFREE)</Address1>
+								<Address2>1399 EAST JINGANG ROAD,</Address2>
+								<City>
+								</City>
+								<CompanyName>JINHUA BOYA FURNITURE CO.LTD.</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>dengjiemax@126.com</Email>
+								<Fax>
+								</Fax>
+								<Phone>57982928688</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'KASEN'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>FLAT 03H, 15F, CARNIVAL COMM</ns0:Address1>
-								<ns0:Address2>BUILDING 18 JAVA ROAD</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>KASEN INDUSTRIAL(HK) LIMITED</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>13656627999@139.com</ns0:Email>
-								<ns0:Fax>25089598</ns0:Fax>
-								<ns0:Phone>28875858</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>FLAT 03H, 15F, CARNIVAL COMM</Address1>
+								<Address2>BUILDING 18 JAVA ROAD</Address2>
+								<City>
+								</City>
+								<CompanyName>KASEN INDUSTRIAL(HK) LIMITED</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>13656627999@139.com</Email>
+								<Fax>25089598</Fax>
+								<Phone>28875858</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'KUKA'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>Factory Adds:113-11th Street,</ns0:Address1>
-								<ns0:Address2>Xiasha District, Hangzhou,</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>KUKA(HK) TRADE CO.,LIMITED</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>potter@kukahome.com</ns0:Email>
-								<ns0:Fax>57185044502</ns0:Fax>
-								<ns0:Phone>57185146199</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>Factory Adds:113-11th Street,</Address1>
+								<Address2>Xiasha District, Hangzhou,</Address2>
+								<City>
+								</City>
+								<CompanyName>KUKA(HK) TRADE CO.,LIMITED</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>potter@kukahome.com</Email>
+								<Fax>57185044502</Fax>
+								<Phone>57185146199</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'LBFURN'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>LOT PTD 5998</ns0:Address1>
-								<ns0:Address2>KAWASAN PERINDUSTRIAN BKT</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>LB FURNITURE SDN BHD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>jennifer@lbfurniture.com</ns0:Email>
-								<ns0:Fax>6069865522</ns0:Fax>
-								<ns0:Phone>6069865500</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>LOT PTD 5998</Address1>
+								<Address2>KAWASAN PERINDUSTRIAN BKT</Address2>
+								<City>
+								</City>
+								<CompanyName>LB FURNITURE SDN BHD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>jennifer@lbfurniture.com</Email>
+								<Fax>6069865522</Fax>
+								<Phone>6069865500</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'LIVINGWORL'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>PTD 5286 JBB 11 BATU 7 1/2</ns0:Address1>
-								<ns0:Address2>JALAN BAKRI 84200</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>LIVING WORLD (M) SDN BHD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>lesley@livingworld.com.my</ns0:Email>
-								<ns0:Fax>6069860337</ns0:Fax>
-								<ns0:Phone>6069860335</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>PTD 5286 JBB 11 BATU 7 1/2</Address1>
+								<Address2>JALAN BAKRI 84200</Address2>
+								<City>
+								</City>
+								<CompanyName>LIVING WORLD (M) SDN BHD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>lesley@livingworld.com.my</Email>
+								<Fax>6069860337</Fax>
+								<Phone>6069860335</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'MAGMA'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>21F, YUE THAI COMMERCIAL BLD</ns0:Address1>
-								<ns0:Address2>128 CONNAUGHT ROAD</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>MAGMA LIMITED</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>msisovic@woodnet-ltd.net</ns0:Email>
-								<ns0:Fax>54135218</ns0:Fax>
-								<ns0:Phone>54135157</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>21F, YUE THAI COMMERCIAL BLD</Address1>
+								<Address2>128 CONNAUGHT ROAD</Address2>
+								<City>
+								</City>
+								<CompanyName>MAGMA LIMITED</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>msisovic@woodnet-ltd.net</Email>
+								<Fax>54135218</Fax>
+								<Phone>54135157</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'MASTER'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>LOT 2325, JALAN SUGAI BURUNG</ns0:Address1>
-								<ns0:Address2>81500 PEKAN NENAS , PONTIAN</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>MASTER SOFA INDUSTRIES SDN.BHD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>customerservice2@mastersofa.</ns0:Email>
-								<ns0:Fax>76992688</ns0:Fax>
-								<ns0:Phone>76991999</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>LOT 2325, JALAN SUGAI BURUNG</Address1>
+								<Address2>81500 PEKAN NENAS , PONTIAN</Address2>
+								<City>
+								</City>
+								<CompanyName>MASTER SOFA INDUSTRIES SDN.BHD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>customerservice2@mastersofa.</Email>
+								<Fax>76992688</Fax>
+								<Phone>76991999</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'MMML'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>3RD FLOOR, OMAR HODGE BUILDING</ns0:Address1>
-								<ns0:Address2>WICKHAMS CAYI</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>MORROW MARKETING MANAGEMENT</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>craig@mmml.com</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>
-								</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>3RD FLOOR, OMAR HODGE BUILDING</Address1>
+								<Address2>WICKHAMS CAYI</Address2>
+								<City>
+								</City>
+								<CompanyName>MORROW MARKETING MANAGEMENT</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>craig@mmml.com</Email>
+								<Fax>
+								</Fax>
+								<Phone>
+								</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'PHAMNHATA'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>NO 57, 14 THIEN TAN STREET</ns0:Address1>
-								<ns0:Address2>BLOCK 4, TAN HOA WARD</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>PHAM NHAT ANH CO., LTD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>phamnhatanh.furniture@gmail.</ns0:Email>
-								<ns0:Fax>2513983926</ns0:Fax>
-								<ns0:Phone>2513983989</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>NO 57, 14 THIEN TAN STREET</Address1>
+								<Address2>BLOCK 4, TAN HOA WARD</Address2>
+								<City>
+								</City>
+								<CompanyName>PHAM NHAT ANH CO., LTD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>phamnhatanh.furniture@gmail.</Email>
+								<Fax>2513983926</Fax>
+								<Phone>2513983989</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'SIGGSHOME'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>LOT 5003 A, JALAN AIK HWA 19</ns0:Address1>
-								<ns0:Address2>BUKIT BAKRI 84200 MUAR</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>SIGGS HOME MANUFACTURING SDN</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>info@siggshome.com</ns0:Email>
-								<ns0:Fax>6069869273</ns0:Fax>
-								<ns0:Phone>6069867273</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>LOT 5003 A, JALAN AIK HWA 19</Address1>
+								<Address2>BUKIT BAKRI 84200 MUAR</Address2>
+								<City>
+								</City>
+								<CompanyName>SIGGS HOME MANUFACTURING SDN</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>info@siggshome.com</Email>
+								<Fax>6069869273</Fax>
+								<Phone>6069867273</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'SILVER'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>MANUFACTURE LTD</ns0:Address1>
-								<ns0:Address2>YANCHENG INDUSTRIAL ZONE</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>SILVER BEAUTY HOME DECORS MANU</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>sales1@silverbeauty.com.cn</ns0:Email>
-								<ns0:Fax>00867526577730</ns0:Fax>
-								<ns0:Phone>00867526577733</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>MANUFACTURE LTD</Address1>
+								<Address2>YANCHENG INDUSTRIAL ZONE</Address2>
+								<City>
+								</City>
+								<CompanyName>SILVER BEAUTY HOME DECORS MANU</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>sales1@silverbeauty.com.cn</Email>
+								<Fax>00867526577730</Fax>
+								<Phone>00867526577733</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'SKYINTL'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>No.2 MIDDLE GONGYE DADAO</ns0:Address1>
-								<ns0:Address2>LONGSHAN INDUSTRY ZONE,</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>SKY INTERNATIONAL GROUP LTD.</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>ceo@skyintlgroup.com.cn</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>7565813666</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>No.2 MIDDLE GONGYE DADAO</Address1>
+								<Address2>LONGSHAN INDUSTRY ZONE,</Address2>
+								<City>
+								</City>
+								<CompanyName>SKY INTERNATIONAL GROUP LTD.</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>ceo@skyintlgroup.com.cn</Email>
+								<Fax>
+								</Fax>
+								<Phone>7565813666</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'SKYLINE'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>NO 263 BEIYUAN ROAD</ns0:Address1>
-								<ns0:Address2>KUNSHAN, JIANGSU 215345</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>KUNSHAN SKYLINE INTERNATIONAL</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>nicky@skylinefurn.com</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>8651250130304</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>NO 263 BEIYUAN ROAD</Address1>
+								<Address2>KUNSHAN, JIANGSU 215345</Address2>
+								<City>
+								</City>
+								<CompanyName>KUNSHAN SKYLINE INTERNATIONAL</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>nicky@skylinefurn.com</Email>
+								<Fax>
+								</Fax>
+								<Phone>8651250130304</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'SOFAX'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>No.800 Shuangbai Road</ns0:Address1>
-								<ns0:Address2>Shanghai 201100</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>Sofax Shanghai Co Ltd</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>allan@sofax.com.cn</ns0:Email>
-								<ns0:Fax>862164341905</ns0:Fax>
-								<ns0:Phone>862164342166</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>No.800 Shuangbai Road</Address1>
+								<Address2>Shanghai 201100</Address2>
+								<City>
+								</City>
+								<CompanyName>Sofax Shanghai Co Ltd</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>allan@sofax.com.cn</Email>
+								<Fax>862164341905</Fax>
+								<Phone>862164342166</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'SUZHOUGX'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>NO. 100 FADA ROAD</ns0:Address1>
-								<ns0:Address2>BANQIAO DEVELOPMENT AREA,</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>TAICANG KANGLE SOFA and FURN</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>binder@kangle-sofa.com</ns0:Email>
-								<ns0:Fax>51253440738</ns0:Fax>
-								<ns0:Phone>51281601081</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>NO. 100 FADA ROAD</Address1>
+								<Address2>BANQIAO DEVELOPMENT AREA,</Address2>
+								<City>
+								</City>
+								<CompanyName>TAICANG KANGLE SOFA and FURN</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>binder@kangle-sofa.com</Email>
+								<Fax>51253440738</Fax>
+								<Phone>51281601081</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'TOPGARD'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>PT MLO 2322 JALEN AYER MANIS</ns0:Address1>
-								<ns0:Address2>MUKIM PARIT JAWA</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>TOPGARD RESOURCES SDN BHD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>csyap@topgardresources.com</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>00116069863313</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>PT MLO 2322 JALEN AYER MANIS</Address1>
+								<Address2>MUKIM PARIT JAWA</Address2>
+								<City>
+								</City>
+								<CompanyName>TOPGARD RESOURCES SDN BHD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>csyap@topgardresources.com</Email>
+								<Fax>
+								</Fax>
+								<Phone>00116069863313</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'VANSENINT'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>33 JIASHAN AVENUE</ns0:Address1>
-								<ns0:Address2>JIASHAN COUNTY</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>ZHEJIANG VANSEN INTELLIGENT FU</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>joyxue@vansen.net.cn</ns0:Email>
-								<ns0:Fax>57384669898</ns0:Fax>
-								<ns0:Phone>573-84018078</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>33 JIASHAN AVENUE</Address1>
+								<Address2>JIASHAN COUNTY</Address2>
+								<City>
+								</City>
+								<CompanyName>ZHEJIANG VANSEN INTELLIGENT FU</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>joyxue@vansen.net.cn</Email>
+								<Fax>57384669898</Fax>
+								<Phone>573-84018078</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'VEKENOJINT'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>TRADE CO..LTD</ns0:Address1>
-								<ns0:Address2>ROOM 1309 PIAOYING CENTURY</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>SHANGHAI O-J INTERNATIONAL</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>lucky-dragon@vip.163.com</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>862165159604</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>TRADE CO..LTD</Address1>
+								<Address2>ROOM 1309 PIAOYING CENTURY</Address2>
+								<City>
+								</City>
+								<CompanyName>SHANGHAI O-J INTERNATIONAL</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>lucky-dragon@vip.163.com</Email>
+								<Fax>
+								</Fax>
+								<Phone>862165159604</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WHITEFEAV'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>L-1-CN, ROAD DA3/NA7</ns0:Address1>
-								<ns0:Address2>MY PHUOC INDUSTRIAL PARK</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>WHITE FEATHER INTERNATIONAL CO</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>sharonkoh@whitefeathers.com.</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>40650553933</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>L-1-CN, ROAD DA3/NA7</Address1>
+								<Address2>MY PHUOC INDUSTRIAL PARK</Address2>
+								<City>
+								</City>
+								<CompanyName>WHITE FEATHER INTERNATIONAL CO</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>sharonkoh@whitefeathers.com.</Email>
+								<Fax>
+								</Fax>
+								<Phone>40650553933</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WOODCONAK'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>TAN PHUOC KHANH TOWN</ns0:Address1>
-								<ns0:Address2>TAN UYEN DISTRICT</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>AN KHANG CO LTD.,</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>SALES@ANKHANGWOOD.COM</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>842743615491</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>TAN PHUOC KHANH TOWN</Address1>
+								<Address2>TAN UYEN DISTRICT</Address2>
+								<City>
+								</City>
+								<CompanyName>AN KHANG CO LTD.,</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>SALES@ANKHANGWOOD.COM</Email>
+								<Fax>
+								</Fax>
+								<Phone>842743615491</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WOODCONLT'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>BINH CHANH WARD</ns0:Address1>
-								<ns0:Address2>KHANH BINH PRE</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>LUC THIEN PHU J.S. CO</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>lethienphu9999@gmail.com</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>0914148698</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>BINH CHANH WARD</Address1>
+								<Address2>KHANH BINH PRE</Address2>
+								<City>
+								</City>
+								<CompanyName>LUC THIEN PHU J.S. CO</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>lethienphu9999@gmail.com</Email>
+								<Fax>
+								</Fax>
+								<Phone>0914148698</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WOODHK'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>21F, YUE THAI COMMERCIAL BUIL</ns0:Address1>
-								<ns0:Address2>128 CONNAUGHT ROAD</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>WOODNET LIMITED</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>msisovic@woodnet-ltd.net</ns0:Email>
-								<ns0:Fax>62811496</ns0:Fax>
-								<ns0:Phone>66848260</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>21F, YUE THAI COMMERCIAL BUIL</Address1>
+								<Address2>128 CONNAUGHT ROAD</Address2>
+								<City>
+								</City>
+								<CompanyName>WOODNET LIMITED</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>msisovic@woodnet-ltd.net</Email>
+								<Fax>62811496</Fax>
+								<Phone>66848260</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WOODNET'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>WOODNET LIMITED HCMC (FACTORY)</ns0:Address1>
-								<ns0:Address2>RM101 SOUTHERN CROSS SKY VIEW</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>LE HOANG MINH CO. LTD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>woodnet1@woodnet-ltd.net</ns0:Email>
-								<ns0:Fax>54135218</ns0:Fax>
-								<ns0:Phone>54135157</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>WOODNET LIMITED HCMC (FACTORY)</Address1>
+								<Address2>RM101 SOUTHERN CROSS SKY VIEW</Address2>
+								<City>
+								</City>
+								<CompanyName>LE HOANG MINH CO. LTD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>woodnet1@woodnet-ltd.net</Email>
+								<Fax>54135218</Fax>
+								<Phone>54135157</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WOODNETCL'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>343 TRAN KHAT CHAN STREET</ns0:Address1>
-								<ns0:Address2>THANH NHAN WARD</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>CUU LONG JOINT STOCK COMPANY</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>woodnet1@woodnet-ltd.net</ns0:Email>
-								<ns0:Fax>988465789</ns0:Fax>
-								<ns0:Phone>439722227</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>343 TRAN KHAT CHAN STREET</Address1>
+								<Address2>THANH NHAN WARD</Address2>
+								<City>
+								</City>
+								<CompanyName>CUU LONG JOINT STOCK COMPANY</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>woodnet1@woodnet-ltd.net</Email>
+								<Fax>988465789</Fax>
+								<Phone>439722227</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WOODNETDOH'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>LY THUONG KIET ST-DI AN WARD</ns0:Address1>
-								<ns0:Address2>BINH DUONG PROVINCE</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>DONG HOA WOOD PROCESS. CO.,LTD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>admin@rbcdonghoa.vn</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>6503734363</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>LY THUONG KIET ST-DI AN WARD</Address1>
+								<Address2>BINH DUONG PROVINCE</Address2>
+								<City>
+								</City>
+								<CompanyName>DONG HOA WOOD PROCESS. CO.,LTD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>admin@rbcdonghoa.vn</Email>
+								<Fax>
+								</Fax>
+								<Phone>6503734363</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WOODNETDU'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>NO.12,27A STREET</ns0:Address1>
-								<ns0:Address2>PHUOC LONG B WARD</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>DAI THUAN FURNITURE COMPANY</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>info@daifuco.vn</ns0:Email>
-								<ns0:Fax>02516280307</ns0:Fax>
-								<ns0:Phone>02516280309</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>NO.12,27A STREET</Address1>
+								<Address2>PHUOC LONG B WARD</Address2>
+								<City>
+								</City>
+								<CompanyName>DAI THUAN FURNITURE COMPANY</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>info@daifuco.vn</Email>
+								<Fax>02516280307</Fax>
+								<Phone>02516280309</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WOODNETEW'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>TAN PHUOC KHANNH TAN UYEN</ns0:Address1>
-								<ns0:Address2>BINH DUONG VIET NAM</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>EASTWESTFURN LTD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>woodnet1@woodnet-ltd.net</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>846503612723</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>TAN PHUOC KHANNH TAN UYEN</Address1>
+								<Address2>BINH DUONG VIET NAM</Address2>
+								<City>
+								</City>
+								<CompanyName>EASTWESTFURN LTD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>woodnet1@woodnet-ltd.net</Email>
+								<Fax>
+								</Fax>
+								<Phone>846503612723</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WOODNETGM'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>Hamlet 1B, An Phu Ward</ns0:Address1>
-								<ns0:Address2>Thuan An District</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>GIANG MINH CO.,LTD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>woodnet1@woodnet-ltd.net</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>8406503713172</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>Hamlet 1B, An Phu Ward</Address1>
+								<Address2>Thuan An District</Address2>
+								<City>
+								</City>
+								<CompanyName>GIANG MINH CO.,LTD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>woodnet1@woodnet-ltd.net</Email>
+								<Fax>
+								</Fax>
+								<Phone>8406503713172</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WOODNETHT'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>LOT A1-A4</ns0:Address1>
-								<ns0:Address2>NORTHEAST SONG CAU INDUSTRIAL</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>THAI THINH COMPANY LTD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>woodnet1@woodnet-ltd.net</ns0:Email>
-								<ns0:Fax>001108457372115</ns0:Fax>
-								<ns0:Phone>001108457372117</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>LOT A1-A4</Address1>
+								<Address2>NORTHEAST SONG CAU INDUSTRIAL</Address2>
+								<City>
+								</City>
+								<CompanyName>THAI THINH COMPANY LTD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>woodnet1@woodnet-ltd.net</Email>
+								<Fax>001108457372115</Fax>
+								<Phone>001108457372117</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WOODNETHU'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>KM20 - HIGHWAY 19 -</ns0:Address1>
-								<ns0:Address2>NHON HOA WARD, AN NHON TOWN</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>HUU THINH PRODUCTION and TRADING</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>woodnet1@woodnet-ltd.net</ns0:Email>
-								<ns0:Fax>563838704</ns0:Fax>
-								<ns0:Phone>563838547</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>KM20 - HIGHWAY 19 -</Address1>
+								<Address2>NHON HOA WARD, AN NHON TOWN</Address2>
+								<City>
+								</City>
+								<CompanyName>HUU THINH PRODUCTION and TRADING</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>woodnet1@woodnet-ltd.net</Email>
+								<Fax>563838704</Fax>
+								<Phone>563838547</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WOODNETTHA'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>59D/1 AN PHU WARD</ns0:Address1>
-								<ns0:Address2>THUAN AN TOWN</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>THINH AN WOOD LTD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>woodnet1@woodnet-ltd.net</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>06503777924</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>59D/1 AN PHU WARD</Address1>
+								<Address2>THUAN AN TOWN</Address2>
+								<City>
+								</City>
+								<CompanyName>THINH AN WOOD LTD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>woodnet1@woodnet-ltd.net</Email>
+								<Fax>
+								</Fax>
+								<Phone>06503777924</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WOODNETVB'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>Lot C2, Street N4,</ns0:Address1>
-								<ns0:Address2>Nam Tan Uyen IZ</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>VIETBOARD JOINT STOCK COMPANY</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>woodnet1@woodnet-ltd.net</ns0:Email>
-								<ns0:Fax>6503652960</ns0:Fax>
-								<ns0:Phone>6503652887</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>Lot C2, Street N4,</Address1>
+								<Address2>Nam Tan Uyen IZ</Address2>
+								<City>
+								</City>
+								<CompanyName>VIETBOARD JOINT STOCK COMPANY</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>woodnet1@woodnet-ltd.net</Email>
+								<Fax>6503652960</Fax>
+								<Phone>6503652887</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WOODNETVI'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>G.5, Binh Khanh</ns0:Address1>
-								<ns0:Address2>Khanh Binh</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>VIENA HANDICRAFT CO.LTD.</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>vienaco@gmail.com</ns0:Email>
-								<ns0:Fax>2743652744</ns0:Fax>
-								<ns0:Phone>2743652744</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>G.5, Binh Khanh</Address1>
+								<Address2>Khanh Binh</Address2>
+								<City>
+								</City>
+								<CompanyName>VIENA HANDICRAFT CO.LTD.</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>vienaco@gmail.com</Email>
+								<Fax>2743652744</Fax>
+								<Phone>2743652744</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'WOODNETVN'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>60/8 ROAD 18, HIEP BINH CHANH</ns0:Address1>
-								<ns0:Address2>THU DUC DIS HCM CITY</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>VIETNAM CONNECTION CO. LTD</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>woodnet1@woodnet-ltd.net</ns0:Email>
-								<ns0:Fax>837263110</ns0:Fax>
-								<ns0:Phone>83726310405</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>60/8 ROAD 18, HIEP BINH CHANH</Address1>
+								<Address2>THU DUC DIS HCM CITY</Address2>
+								<City>
+								</City>
+								<CompanyName>VIETNAM CONNECTION CO. LTD</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>woodnet1@woodnet-ltd.net</Email>
+								<Fax>837263110</Fax>
+								<Phone>83726310405</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'XINHE'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>LOT 3951 LORONG PAYA</ns0:Address1>
-								<ns0:Address2>JALAN KEBUN SAYUR</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>XINHE FURNITURE INDUSTRIES SDN</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>ivy@xinhefurniture.com</ns0:Email>
-								<ns0:Fax>175342220</ns0:Fax>
-								<ns0:Phone>195950222</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>LOT 3951 LORONG PAYA</Address1>
+								<Address2>JALAN KEBUN SAYUR</Address2>
+								<City>
+								</City>
+								<CompanyName>XINHE FURNITURE INDUSTRIES SDN</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>ivy@xinhefurniture.com</Email>
+								<Fax>175342220</Fax>
+								<Phone>195950222</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'XINYUAN'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>GUGAO ROAD</ns0:Address1>
-								<ns0:Address2>AGRICULTURAL PRODUCT</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>TAIZHOU XINYUAN FURNITURE CO</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>justin@tz-xinyuan.com</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>52387499886</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>GUGAO ROAD</Address1>
+								<Address2>AGRICULTURAL PRODUCT</Address2>
+								<City>
+								</City>
+								<CompanyName>TAIZHOU XINYUAN FURNITURE CO</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>justin@tz-xinyuan.com</Email>
+								<Fax>
+								</Fax>
+								<Phone>52387499886</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'YEWH'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>LOT 1950 BATU 1 1/2</ns0:Address1>
-								<ns0:Address2>JALAN BANGI 43500</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>YEW HOONG SOFA PRODUCTS (M)</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>marketing@hugosofa.com</ns0:Email>
-								<ns0:Fax>60387249890</ns0:Fax>
-								<ns0:Phone>60387235676</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>LOT 1950 BATU 1 1/2</Address1>
+								<Address2>JALAN BANGI 43500</Address2>
+								<City>
+								</City>
+								<CompanyName>YEW HOONG SOFA PRODUCTS (M)</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>marketing@hugosofa.com</Email>
+								<Fax>60387249890</Fax>
+								<Phone>60387235676</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'ZAGOLEBET'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>HO CHI MINH</ns0:Address1>
-								<ns0:Address2>PRO-LIVING ASIA</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>ZAGO'S STUDIO LE BETON FACTORY</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>nhon.nguyen@pro-living.asia</ns0:Email>
-								<ns0:Fax>
-								</ns0:Fax>
-								<ns0:Phone>+06503639162</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>HO CHI MINH</Address1>
+								<Address2>PRO-LIVING ASIA</Address2>
+								<City>
+								</City>
+								<CompanyName>ZAGO'S STUDIO LE BETON FACTORY</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>nhon.nguyen@pro-living.asia</Email>
+								<Fax>
+								</Fax>
+								<Phone>+06503639162</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/VENDCODE/text()) = 'ZHEJ HAPPY'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>NO.100 LONGXING ROAD</ns0:Address1>
-								<ns0:Address2>HAINING, ZHEJIANG</ns0:Address2>
-								<ns0:City>
-								</ns0:City>
-								<ns0:CompanyName>ZHEJIANG HAPPY FURNISHINGS CO</ns0:CompanyName>
-								<ns0:Contact>
-								</ns0:Contact>
-								<ns0:Email>happyleather_03@ounoya.com</ns0:Email>
-								<ns0:Fax>57387800118</ns0:Fax>
-								<ns0:Phone>57387501620</ns0:Phone>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<Address1>NO.100 LONGXING ROAD</Address1>
+								<Address2>HAINING, ZHEJIANG</Address2>
+								<City>
+								</City>
+								<CompanyName>ZHEJIANG HAPPY FURNISHINGS CO</CompanyName>
+								<Contact>
+								</Contact>
+								<Email>happyleather_03@ounoya.com</Email>
+								<Fax>57387800118</Fax>
+								<Phone>57387501620</Phone>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:otherwise>
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsignorDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:Address1>
+								</AddressType>
+								<Address1>
 									<xsl:value-of select="normalize-space(POHEADER/VEND_ADDR2/text())" />
-								</ns0:Address1>
-								<ns0:Address2>
+								</Address1>
+								<Address2>
 									<xsl:value-of select="normalize-space(POHEADER/VEND_ADDR3/text())" />
-								</ns0:Address2>
-								<ns0:City>
+								</Address2>
+								<City>
 									<xsl:value-of select="normalize-space(POHEADER/VEND_ADDRCTY/text())" />
-								</ns0:City>
-								<ns0:CompanyName>
+								</City>
+								<CompanyName>
 									<xsl:value-of select="normalize-space(POHEADER/VEND_ADDR1/text())" />
-								</ns0:CompanyName>
-								<ns0:Contact>
+								</CompanyName>
+								<Contact>
 									<xsl:value-of select="normalize-space(POHEADER/VEND_CONTACT/text())" />
-								</ns0:Contact>
-								<ns0:Email>
+								</Contact>
+								<Email>
 									<xsl:value-of select="normalize-space(POHEADER/VEND_EMAIL/text())" />
-								</ns0:Email>
-								<ns0:Fax>
+								</Email>
+								<Fax>
 									<xsl:value-of select="normalize-space(POHEADER/VEND_FAX/text())" />
-								</ns0:Fax>
-								<ns0:Phone>
+								</Fax>
+								<Phone>
 									<xsl:value-of select="normalize-space(POHEADER/VEND_PHONE/text())" />
-								</ns0:Phone>
-							</ns0:OrganizationAddress>  
+								</Phone>
+							</OrganizationAddress>  
 						</xsl:otherwise>
 					</xsl:choose>
 
 					<xsl:choose>
 						<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'BAYS'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsigneePickupDeliveryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:OrganizationCode>DIXIEC_AU</ns0:OrganizationCode>
-								<ns0:AddressShortCode>BAYS</ns0:AddressShortCode>
-								<ns0:Address1>80 Hartnett Dve</ns0:Address1>
-								<ns0:Address2>Seaford</ns0:Address2>
-								<ns0:City>Seaford</ns0:City>
-								<ns0:CompanyName>Bayside Seaford</ns0:CompanyName>
-								<ns0:Contact/>
-								<ns0:Email/>
-								<ns0:Fax/>
-								<ns0:Phone/>
-								<ns0:State>VIC</ns0:State>
-								<ns0:Postcode>3198</ns0:Postcode>
-								<ns0:Port>
-									<ns0:Code>AUMEL</ns0:Code>
-								</ns0:Port>
-								<ns0:Country>
-									<ns0:Code>AU</ns0:Code>
-								</ns0:Country>
-							</ns0:OrganizationAddress>		  
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+								</AddressType>
+								<OrganizationCode>DIXIEC_AU</OrganizationCode>
+								<AddressShortCode>BAYS</AddressShortCode>
+								<Address1>80 Hartnett Dve</Address1>
+								<Address2>Seaford</Address2>
+								<City>Seaford</City>
+								<CompanyName>Bayside Seaford</CompanyName>
+								<Contact/>
+								<Email/>
+								<Fax/>
+								<Phone/>
+								<State>VIC</State>
+								<Postcode>3198</Postcode>
+								<Port>
+									<Code>AUMEL</Code>
+								</Port>
+								<Country>
+									<Code>AU</Code>
+								</Country>
+							</OrganizationAddress>		  
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsigneeDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:OrganizationCode>DIXIEC_AU</ns0:OrganizationCode>
-								<ns0:AddressShortCode>BAYS</ns0:AddressShortCode>
-								<ns0:Address1>80 Hartnett Dve</ns0:Address1>
-								<ns0:Address2>Seaford</ns0:Address2>
-								<ns0:City>Seaford</ns0:City>
-								<ns0:CompanyName>Bayside Seaford</ns0:CompanyName>
-								<ns0:Contact/>
-								<ns0:Email/>
-								<ns0:Fax/>
-								<ns0:Phone/>
-								<ns0:State>VIC</ns0:State>
-								<ns0:Postcode>3198</ns0:Postcode>
-								<ns0:Port>
-									<ns0:Code>AUMEL</ns0:Code>
-								</ns0:Port>
-								<ns0:Country>
-									<ns0:Code>AU</ns0:Code>
-								</ns0:Country>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<OrganizationCode>DIXIEC_AU</OrganizationCode>
+								<AddressShortCode>BAYS</AddressShortCode>
+								<Address1>80 Hartnett Dve</Address1>
+								<Address2>Seaford</Address2>
+								<City>Seaford</City>
+								<CompanyName>Bayside Seaford</CompanyName>
+								<Contact/>
+								<Email/>
+								<Fax/>
+								<Phone/>
+								<State>VIC</State>
+								<Postcode>3198</Postcode>
+								<Port>
+									<Code>AUMEL</Code>
+								</Port>
+								<Country>
+									<Code>AU</Code>
+								</Country>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'NSW'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsigneePickupDeliveryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:OrganizationCode>DIXIEC_AU</ns0:OrganizationCode>
-								<ns0:AddressShortCode>NSW</ns0:AddressShortCode>
-								<ns0:Address1>1-5 Manchester Rd</ns0:Address1>
-								<ns0:Address2>Auburn</ns0:Address2>
-								<ns0:City>Auburn</ns0:City>
-								<ns0:CompanyName>NSW</ns0:CompanyName>
-								<ns0:Contact/>
-								<ns0:Email/>
-								<ns0:Fax/>
-								<ns0:Phone/>
-								<ns0:State>NSW</ns0:State>
-								<ns0:Postcode>2144</ns0:Postcode>
-								<ns0:Country>
-									<ns0:Code>AU</ns0:Code>
-								</ns0:Country>
-								<ns0:Port>
-									<ns0:Code>AUSYD</ns0:Code>
-								</ns0:Port>
-							</ns0:OrganizationAddress>		  
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+								</AddressType>
+								<OrganizationCode>DIXIEC_AU</OrganizationCode>
+								<AddressShortCode>NSW</AddressShortCode>
+								<Address1>1-5 Manchester Rd</Address1>
+								<Address2>Auburn</Address2>
+								<City>Auburn</City>
+								<CompanyName>NSW</CompanyName>
+								<Contact/>
+								<Email/>
+								<Fax/>
+								<Phone/>
+								<State>NSW</State>
+								<Postcode>2144</Postcode>
+								<Country>
+									<Code>AU</Code>
+								</Country>
+								<Port>
+									<Code>AUSYD</Code>
+								</Port>
+							</OrganizationAddress>		  
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsigneeDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:OrganizationCode>DIXIEC_AU</ns0:OrganizationCode>
-								<ns0:AddressShortCode>NSW</ns0:AddressShortCode>
-								<ns0:Address1>1-5 Manchester Rd</ns0:Address1>
-								<ns0:Address2>Auburn</ns0:Address2>
-								<ns0:City>Auburn</ns0:City>
-								<ns0:CompanyName>NSW</ns0:CompanyName>
-								<ns0:Contact/>
-								<ns0:Email/>
-								<ns0:Fax/>
-								<ns0:Phone/>
-								<ns0:State>NSW</ns0:State>
-								<ns0:Postcode>2144</ns0:Postcode>
-								<ns0:Country>
-									<ns0:Code>AU</ns0:Code>
-								</ns0:Country>
-								<ns0:Port>
-									<ns0:Code>AUSYD</ns0:Code>
-								</ns0:Port>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<OrganizationCode>DIXIEC_AU</OrganizationCode>
+								<AddressShortCode>NSW</AddressShortCode>
+								<Address1>1-5 Manchester Rd</Address1>
+								<Address2>Auburn</Address2>
+								<City>Auburn</City>
+								<CompanyName>NSW</CompanyName>
+								<Contact/>
+								<Email/>
+								<Fax/>
+								<Phone/>
+								<State>NSW</State>
+								<Postcode>2144</Postcode>
+								<Country>
+									<Code>AU</Code>
+								</Country>
+								<Port>
+									<Code>AUSYD</Code>
+								</Port>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'QLD'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsigneePickupDeliveryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:OrganizationCode>DIXIEC_AU</ns0:OrganizationCode>
-								<ns0:AddressShortCode>QLD</ns0:AddressShortCode>
-								<ns0:Address1>Dixie Cummings QLD</ns0:Address1>
-								<ns0:Address2>4 / 231 Holt St</ns0:Address2>
-								<ns0:City>Pinkenba</ns0:City>
-								<ns0:CompanyName>QLD</ns0:CompanyName>
-								<ns0:Contact/>
-								<ns0:Email/>
-								<ns0:Fax/>
-								<ns0:Phone/>
-								<ns0:State>QLD</ns0:State>
-								<ns0:Postcode>4009</ns0:Postcode>
-								<ns0:Country>
-									<ns0:Code>AU</ns0:Code>
-								</ns0:Country>
-								<ns0:Port>
-									<ns0:Code>AUBNE</ns0:Code>
-								</ns0:Port>
-							</ns0:OrganizationAddress>		  
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+								</AddressType>
+								<OrganizationCode>DIXIEC_AU</OrganizationCode>
+								<AddressShortCode>QLD</AddressShortCode>
+								<Address1>Dixie Cummings QLD</Address1>
+								<Address2>4 / 231 Holt St</Address2>
+								<City>Pinkenba</City>
+								<CompanyName>QLD</CompanyName>
+								<Contact/>
+								<Email/>
+								<Fax/>
+								<Phone/>
+								<State>QLD</State>
+								<Postcode>4009</Postcode>
+								<Country>
+									<Code>AU</Code>
+								</Country>
+								<Port>
+									<Code>AUBNE</Code>
+								</Port>
+							</OrganizationAddress>		  
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsigneeDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:OrganizationCode>DIXIEC_AU</ns0:OrganizationCode>
-								<ns0:AddressShortCode>QLD</ns0:AddressShortCode>
-								<ns0:Address1>Dixie Cummings QLD</ns0:Address1>
-								<ns0:Address2>4 / 231 Holt St</ns0:Address2>
-								<ns0:City>Pinkenba</ns0:City>
-								<ns0:CompanyName>QLD</ns0:CompanyName>
-								<ns0:Contact/>
-								<ns0:Email/>
-								<ns0:Fax/>
-								<ns0:Phone/>
-								<ns0:State>QLD</ns0:State>
-								<ns0:Postcode>4009</ns0:Postcode>
-								<ns0:Country>
-									<ns0:Code>AU</ns0:Code>
-								</ns0:Country>
-								<ns0:Port>
-									<ns0:Code>AUBNE</ns0:Code>
-								</ns0:Port>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<OrganizationCode>DIXIEC_AU</OrganizationCode>
+								<AddressShortCode>QLD</AddressShortCode>
+								<Address1>Dixie Cummings QLD</Address1>
+								<Address2>4 / 231 Holt St</Address2>
+								<City>Pinkenba</City>
+								<CompanyName>QLD</CompanyName>
+								<Contact/>
+								<Email/>
+								<Fax/>
+								<Phone/>
+								<State>QLD</State>
+								<Postcode>4009</Postcode>
+								<Country>
+									<Code>AU</Code>
+								</Country>
+								<Port>
+									<Code>AUBNE</Code>
+								</Port>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'WA'">
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsigneePickupDeliveryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:OrganizationCode>DIXIEC_AU</ns0:OrganizationCode>
-								<ns0:AddressShortCode>WA</ns0:AddressShortCode>
-								<ns0:Address1>6 Carousel Road</ns0:Address1>
-								<ns0:Address2>Cannington</ns0:Address2>
-								<ns0:City>Cannington</ns0:City>
-								<ns0:CompanyName>WA Warehouse</ns0:CompanyName>
-								<ns0:Contact/>
-								<ns0:Email/>
-								<ns0:Fax/>
-								<ns0:Phone/>
-								<ns0:State>WA</ns0:State>
-								<ns0:Postcode>6107</ns0:Postcode>
-								<ns0:Country>
-									<ns0:Code>AU</ns0:Code>
-								</ns0:Country>
-								<ns0:Port>
-									<ns0:Code>AUFRE</ns0:Code>
-								</ns0:Port>
-							</ns0:OrganizationAddress>		  
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+								</AddressType>
+								<OrganizationCode>DIXIEC_AU</OrganizationCode>
+								<AddressShortCode>WA</AddressShortCode>
+								<Address1>6 Carousel Road</Address1>
+								<Address2>Cannington</Address2>
+								<City>Cannington</City>
+								<CompanyName>WA Warehouse</CompanyName>
+								<Contact/>
+								<Email/>
+								<Fax/>
+								<Phone/>
+								<State>WA</State>
+								<Postcode>6107</Postcode>
+								<Country>
+									<Code>AU</Code>
+								</Country>
+								<Port>
+									<Code>AUFRE</Code>
+								</Port>
+							</OrganizationAddress>		  
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsigneeDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:OrganizationCode>DIXIEC_AU</ns0:OrganizationCode>
-								<ns0:AddressShortCode>WA</ns0:AddressShortCode>
-								<ns0:Address1>6 Carousel Road</ns0:Address1>
-								<ns0:Address2>Cannington</ns0:Address2>
-								<ns0:City>Cannington</ns0:City>
-								<ns0:CompanyName>WA Warehouse</ns0:CompanyName>
-								<ns0:Contact/>
-								<ns0:Email/>
-								<ns0:Fax/>
-								<ns0:Phone/>
-								<ns0:State>WA</ns0:State>
-								<ns0:Postcode>6107</ns0:Postcode>
-								<ns0:Country>
-									<ns0:Code>AU</ns0:Code>
-								</ns0:Country>
-								<ns0:Port>
-									<ns0:Code>AUFRE</ns0:Code>
-								</ns0:Port>
-							</ns0:OrganizationAddress>
+								</AddressType>
+								<OrganizationCode>DIXIEC_AU</OrganizationCode>
+								<AddressShortCode>WA</AddressShortCode>
+								<Address1>6 Carousel Road</Address1>
+								<Address2>Cannington</Address2>
+								<City>Cannington</City>
+								<CompanyName>WA Warehouse</CompanyName>
+								<Contact/>
+								<Email/>
+								<Fax/>
+								<Phone/>
+								<State>WA</State>
+								<Postcode>6107</Postcode>
+								<Country>
+									<Code>AU</Code>
+								</Country>
+								<Port>
+									<Code>AUFRE</Code>
+								</Port>
+							</OrganizationAddress>
 						</xsl:when>
 
 						<xsl:otherwise>
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsigneePickupDeliveryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:OrganizationCode>DIXIEC_AU</ns0:OrganizationCode>
+								</AddressType>
+								<OrganizationCode>DIXIEC_AU</OrganizationCode>
 								<xsl:choose>
 									<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'DIR' and normalize-space(POHEADER/DEL_ADDR1/text()) = 'H/Norman Springvale'">
-										<ns0:AddressShortCode>HN Springvale</ns0:AddressShortCode>
+										<AddressShortCode>HN Springvale</AddressShortCode>
 									</xsl:when>
 									<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'DIR' and normalize-space(POHEADER/DEL_ADDR1/text()) = 'Furniture Bazaar'">
-										<ns0:AddressShortCode>FURNITURE BAZAAR</ns0:AddressShortCode>
+										<AddressShortCode>FURNITURE BAZAAR</AddressShortCode>
 									</xsl:when>
 									<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'DIR' and normalize-space(POHEADER/DEL_ADDR1/text()) = 'Harvey Norman Auburn Furniture'">
-										<ns0:AddressShortCode>HN AUBURN</ns0:AddressShortCode>
+										<AddressShortCode>HN AUBURN</AddressShortCode>
 									</xsl:when>
 									<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'DIR' and normalize-space(POHEADER/DEL_ADDR1/text()) = 'Harvey Norman Noarlunga Furniture'">
-										<ns0:AddressShortCode>HN NOARLUNGA</ns0:AddressShortCode>
+										<AddressShortCode>HN NOARLUNGA</AddressShortCode>
 									</xsl:when>
 									<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'DIR' and normalize-space(POHEADER/DEL_ADDR1/text()) = 'Harvey Norman Warehouse F/ston'">
-										<ns0:AddressShortCode>HN FRANKSTON</ns0:AddressShortCode>
+										<AddressShortCode>HN FRANKSTON</AddressShortCode>
 									</xsl:when>
 									<xsl:otherwise>
-										<ns0:AddressShortCode>
+										<AddressShortCode>
 											<xsl:value-of select="normalize-space(POHEADER/DELCUST/text())" />
-										</ns0:AddressShortCode>
+										</AddressShortCode>
 									</xsl:otherwise>
 								</xsl:choose>
-								<!-- <ns0:Address1> -->
+								<!-- <Address1> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_ADDR2/text())" /> -->
-								<!-- </ns0:Address1> -->
-								<!-- <ns0:Address2> -->
+								<!-- </Address1> -->
+								<!-- <Address2> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_ADDR3/text())" /> -->
-								<!-- </ns0:Address2> -->
-								<!-- <ns0:City> -->
+								<!-- </Address2> -->
+								<!-- <City> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_ADDRCTY/text())" /> -->
-								<!-- </ns0:City> -->
-								<!-- <ns0:CompanyName> -->
+								<!-- </City> -->
+								<!-- <CompanyName> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_ADDR1/text())" /> -->
-								<!-- </ns0:CompanyName> -->
-								<!-- <ns0:Contact> -->
+								<!-- </CompanyName> -->
+								<!-- <Contact> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_CONTACT/text())" /> -->
-								<!-- </ns0:Contact> -->
-								<!-- <ns0:Email> -->
+								<!-- </Contact> -->
+								<!-- <Email> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_EMAIL/text())" /> -->
-								<!-- </ns0:Email> -->
-								<!-- <ns0:Fax> -->
+								<!-- </Email> -->
+								<!-- <Fax> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_FAX/text())" /> -->
-								<!-- </ns0:Fax> -->
-								<!-- <ns0:Phone> -->
+								<!-- </Fax> -->
+								<!-- <Phone> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_PHONE/text())" /> -->
-								<!-- </ns0:Phone> -->
-							</ns0:OrganizationAddress>		  
-							<ns0:OrganizationAddress>
-								<ns0:AddressType>
+								<!-- </Phone> -->
+							</OrganizationAddress>		  
+							<OrganizationAddress>
+								<AddressType>
 									<xsl:text>ConsigneeDocumentaryAddress</xsl:text>
-								</ns0:AddressType>
-								<ns0:OrganizationCode>DIXIEC_AU</ns0:OrganizationCode>
+								</AddressType>
+								<OrganizationCode>DIXIEC_AU</OrganizationCode>
 								<xsl:choose>
 									<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'DIR' and normalize-space(POHEADER/DEL_ADDR1/text()) = 'H/Norman Springvale'">
-										<ns0:AddressShortCode>HN Springvale</ns0:AddressShortCode>
+										<AddressShortCode>HN Springvale</AddressShortCode>
 									</xsl:when>
 									<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'DIR' and normalize-space(POHEADER/DEL_ADDR1/text()) = 'Furniture Bazaar'">
-										<ns0:AddressShortCode>FURNITURE BAZAAR</ns0:AddressShortCode>
+										<AddressShortCode>FURNITURE BAZAAR</AddressShortCode>
 									</xsl:when>
 									<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'DIR' and normalize-space(POHEADER/DEL_ADDR1/text()) = 'Harvey Norman Auburn Furniture'">
-										<ns0:AddressShortCode>HN AUBURN</ns0:AddressShortCode>
+										<AddressShortCode>HN AUBURN</AddressShortCode>
 									</xsl:when>
 									<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'DIR' and normalize-space(POHEADER/DEL_ADDR1/text()) = 'Harvey Norman Noarlunga Furniture'">
-										<ns0:AddressShortCode>HN NOARLUNGA</ns0:AddressShortCode>
+										<AddressShortCode>HN NOARLUNGA</AddressShortCode>
 									</xsl:when>
 									<xsl:when test="normalize-space(POHEADER/DEL_WHCODE/text()) = 'DIR' and normalize-space(POHEADER/DEL_ADDR1/text()) = 'Harvey Norman Warehouse F/ston'">
-										<ns0:AddressShortCode>HN FRANKSTON</ns0:AddressShortCode>
+										<AddressShortCode>HN FRANKSTON</AddressShortCode>
 									</xsl:when>
 									<xsl:otherwise>
-										<ns0:AddressShortCode>
+										<AddressShortCode>
 											<xsl:value-of select="normalize-space(POHEADER/DELCUST/text())" />
-										</ns0:AddressShortCode>
+										</AddressShortCode>
 									</xsl:otherwise>
 								</xsl:choose>
-								<!-- <ns0:Address1> -->
+								<!-- <Address1> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_ADDR2/text())" /> -->
-								<!-- </ns0:Address1> -->
-								<!-- <ns0:Address2> -->
+								<!-- </Address1> -->
+								<!-- <Address2> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_ADDR3/text())" /> -->
-								<!-- </ns0:Address2> -->
-								<!-- <ns0:City> -->
+								<!-- </Address2> -->
+								<!-- <City> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_ADDRCTY/text())" /> -->
-								<!-- </ns0:City> -->
-								<!-- <ns0:CompanyName> -->
+								<!-- </City> -->
+								<!-- <CompanyName> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_ADDR1/text())" /> -->
-								<!-- </ns0:CompanyName> -->
-								<!-- <ns0:Contact> -->
+								<!-- </CompanyName> -->
+								<!-- <Contact> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_CONTACT/text())" /> -->
-								<!-- </ns0:Contact> -->
-								<!-- <ns0:Email> -->
+								<!-- </Contact> -->
+								<!-- <Email> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_EMAIL/text())" /> -->
-								<!-- </ns0:Email> -->
-								<!-- <ns0:Fax> -->
+								<!-- </Email> -->
+								<!-- <Fax> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_FAX/text())" /> -->
-								<!-- </ns0:Fax> -->
-								<!-- <ns0:Phone> -->
+								<!-- </Fax> -->
+								<!-- <Phone> -->
 								<!-- <xsl:value-of select="normalize-space(POHEADER/DEL_PHONE/text())" /> -->
-								<!-- </ns0:Phone> -->
-							</ns0:OrganizationAddress>
+								<!-- </Phone> -->
+							</OrganizationAddress>
 						</xsl:otherwise>
 					</xsl:choose>  
 
-				</ns0:OrganizationAddressCollection>
-			</ns0:Shipment>
-		</ns0:UniversalShipment>
+				</OrganizationAddressCollection>
+			</Shipment>
+		</UniversalShipment>
 	</xsl:template>
 	<msxsl:script language="C#" implements-prefix="userCSharp">
 		<![CDATA[ 
