@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-16"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:var="http://schemas.microsoft.com/BizTalk/2003/var" exclude-result-prefixes="msxsl var s0 json userCSharp" version="1.0" xmlns:s0="http://www.cargowise.com/Schemas/Universal/2011/11" xmlns:userCSharp="http://schemas.microsoft.com/BizTalk/2003/userCSharp" xmlns:json='http://james.newtonking.com/projects/json'>
   <xsl:output omit-xml-declaration="yes" method="xml" version="1.0" />
   <xsl:template match="/">
@@ -35,7 +35,8 @@
               </suburb>
             </consignee>
             <eCertifyCompanyReference>
-              <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:DataContext/s0:DataSourceCollection/s0:DataSource/s0:Key"/>
+              <!-- <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:DataContext/s0:DataSourceCollection/s0:DataSource/s0:Key"/> -->
+              <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='NZCC eCertifyCompanyReference']/s0:Value"/>
             </eCertifyCompanyReference>
             <exporter>
               <buildingOrStreetNumber>
@@ -226,7 +227,8 @@
               </suburb>
             </consignee>
             <eCertifyCompanyReference>
-              <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:DataContext/s0:DataSourceCollection/s0:DataSource/s0:Key"/>
+              <!-- <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:DataContext/s0:DataSourceCollection/s0:DataSource/s0:Key"/> -->
+              <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='NZCC eCertifyCompanyReference']/s0:Value"/>
             </eCertifyCompanyReference>
             <exporter>
               <buildingOrStreetNumber>
