@@ -69,7 +69,8 @@
 						<xsl:if test="order/orderIdentification/deliveryDates/dueDate !=''">
 							<CustomizedField>
 								<Value>
-									<xsl:value-of select="order/orderIdentification/deliveryDates/dueDate/text()" />
+									<xsl:value-of select="concat(substring(order/orderIdentification/deliveryDates/dueDate,1,4),'-', substring(order/orderIdentification/deliveryDates/dueDate,5,2), '-', substring(order/orderIdentification/deliveryDates/dueDate,7,2),'T00:00:00')" />
+									<!-- <xsl:value-of select="order/orderIdentification/deliveryDates/dueDate/text()" /> -->
 								</Value>
 								<Key>Due Date</Key>
 								<DataType>DateTime</DataType>
@@ -78,7 +79,8 @@
 						<xsl:if test="order/orderIdentification/deliveryDates/latestDate !=''">
 							<CustomizedField>
 								<Value>
-									<xsl:value-of select="order/orderIdentification/deliveryDates/latestDate/text()" />
+									<xsl:value-of select="concat(substring(order/orderIdentification/deliveryDates/latestDate,1,4),'-', substring(order/orderIdentification/deliveryDates/latestDate,5,2), '-', substring(order/orderIdentification/deliveryDates/latestDate,7,2),'T00:00:00')" />
+									<!-- <xsl:value-of select="order/orderIdentification/deliveryDates/latestDate/text()" /> -->
 								</Value>
 								<Key>Latest Date</Key>
 								<DataType>DateTime</DataType>
@@ -87,7 +89,8 @@
 						<xsl:if test="order/orderIdentification/deliveryDates/earliestDate !=''">
 							<CustomizedField>
 								<Value>
-									<xsl:value-of select="order/orderIdentification/deliveryDates/earliestDate/text()" />
+									<xsl:value-of select="concat(substring(order/orderIdentification/deliveryDates/earliestDate,1,4),'-', substring(order/orderIdentification/deliveryDates/earliestDate,5,2), '-', substring(order/orderIdentification/deliveryDates/earliestDate,7,2),'T00:00:00')" />
+									<!-- <xsl:value-of select="order/orderIdentification/deliveryDates/earliestDate/text()" /> -->
 								</Value>
 								<Key>Earliest Date</Key>
 								<DataType>DateTime</DataType>
