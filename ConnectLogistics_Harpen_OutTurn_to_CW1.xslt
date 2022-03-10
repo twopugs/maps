@@ -5,6 +5,8 @@
 		<xsl:apply-templates select="/Schedule" />
 	</xsl:template>
 	<xsl:template match="/Schedule">
+	<xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'" />
+	<xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
 		<UniversalShipment>
 				<Shipment>
 					<DataContext>
@@ -62,9 +64,9 @@
 						</xsl:otherwise>
 					</xsl:choose>
 					<PortOfLoading>
-						<Name>
+						<Code>
 							<xsl:value-of select="Main-Carriage-Details/Place-of-Load/text()" />
-						</Name>
+						</Code>
 					</PortOfLoading>
 					<QuoteNumber>
 						<xsl:value-of select="General-Registration-Details/LoadingNo-BookingRef/text()" />
@@ -72,7 +74,7 @@
 					<xsl:if test="General-Registration-Details/Shipment-Indicator !=''">
 						<ShipmentType>
 							<Code>
-								<xsl:value-of select="substring(General-Registration-Details/Shipment-Indicator/text(),0,4)" />
+								<xsl:value-of select="translate(substring(General-Registration-Details/Shipment-Indicator/text(),0,4), $lowercase, $uppercase)" />
 							</Code>
 						</ShipmentType>
 					</xsl:if>
@@ -183,9 +185,7 @@
 										<Value>
 											<xsl:value-of select="../Main-Carriage-Details/Shipping-Carrier-Code/text()" />
 										</Value>
-										<Key>
-											<xsl:value-of select="../Main-Carriage-Details/Shipping-Carrier-Code/text()" />
-										</Key>
+										<Key>BillIssuer</Key>
 									</AddInfo>
 								</AddInfoCollection>
 								<PackingLineCollection Content="Complete">
@@ -199,8 +199,6 @@
 										<MarksAndNos>
 											<xsl:value-of select="Package-Marks/text()" />
 										</MarksAndNos>
-										<OutturnedWeight>0.00</OutturnedWeight>
-										<OutturnQty>0</OutturnQty>
 										<PackQty>0</PackQty>
 										<GoodsDescription>
 											<xsl:value-of select="Package-Description/text()" />
