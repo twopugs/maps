@@ -102,7 +102,7 @@
 									<xsl:value-of select="order/orderIdentification/dcCode/text()" />
 								</Value>
 								<Key>DC Code</Key>
-								<DataType>DateTime</DataType>
+								<DataType>String</DataType>
 							</CustomizedField>
 						</xsl:if>
 						<xsl:if test="order/orderIdentification/representatives !=''">
