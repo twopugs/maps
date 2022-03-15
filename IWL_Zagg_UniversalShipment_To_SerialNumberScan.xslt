@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-16"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:var="http://schemas.microsoft.com/BizTalk/2003/var" exclude-result-prefixes="msxsl var s0 userCSharp json" version="1.0" xmlns:s0="http://www.cargowise.com/Schemas/Universal/2011/11" xmlns:userCSharp="http://schemas.microsoft.com/BizTalk/2003/userCSharp" xmlns:json='http://james.newtonking.com/projects/json'>
   <xsl:output omit-xml-declaration="yes" method="xml" version="1.0" />
   <xsl:template match="/">
@@ -28,19 +28,43 @@
               <xsl:variable name="Link" select="s0:Link"/>
 
               <xsl:if test="../../../s0:CommercialInfo/s0:CommercialInvoiceCollection/s0:CommercialInvoice/s0:CommercialInvoiceLineCollection/s0:CommercialInvoiceLine[s0:OrderLineLink=$Link]/s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='Serial Number']/s0:Value/text()" >
-                <LineItems json:Array='true'>
+                <LineItems>
                   <ProductSKU>
                     <xsl:value-of select="s0:Product/s0:Code/text()" />
                   </ProductSKU>
-                  <QtyShipped>
-                    <xsl:value-of select="s0:QuantityMet/text()" />
-                  </QtyShipped>
+                  <!-- <QtyShipped> -->
+				  	<!-- <xsl:value-of select="s0:QuantityMet/text()" /> -->
+				  <!-- </QtyShipped> -->
                     <xsl:for-each select="../../../s0:CommercialInfo/s0:CommercialInvoiceCollection/s0:CommercialInvoice/s0:CommercialInvoiceLineCollection/s0:CommercialInvoiceLine[s0:OrderLineLink=$Link]">
-                  <SerialNumbers json:Array='true'>
-                        <xsl:value-of select="s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='Serial Number']/s0:Value/text()" />
-                  </SerialNumbers>
+						<SerialNumbers>
+							<xsl:value-of select="s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='Serial Number']/s0:Value/text()" />
+						</SerialNumbers>
+						
                     </xsl:for-each>
-
+					<xsl:for-each select="../../../s0:CommercialInfo/s0:CommercialInvoiceCollection/s0:CommercialInvoice/s0:CommercialInvoiceLineCollection/s0:CommercialInvoiceLine[s0:OrderLineLink=$Link]">
+						<QuantityShipped>
+							<ToRemoveCode>
+								<xsl:value-of select="s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='Product Code']/s0:Value/text()" />
+							</ToRemoveCode>
+							<ToRemoveInvoiceCode>
+								<xsl:value-of select="s0:InvoiceQuantityUnit/s0:Code/text()" />
+							</ToRemoveInvoiceCode>
+							<xsl:if test="s0:InvoiceQuantity !=''" >
+								
+								<xsl:choose>
+									<xsl:when test="substring-after(s0:InvoiceQuantity/text(),'.') > 0"> 
+										<QtyShipped>0</QtyShipped>
+									</xsl:when>
+									<xsl:otherwise>
+										<QtyShipped>
+											<xsl:value-of select="concat('Remove', position(),'_', s0:InvoiceQuantity/text())" />
+										</QtyShipped>
+									</xsl:otherwise>
+								</xsl:choose>
+								
+							</xsl:if>
+						</QuantityShipped>
+					</xsl:for-each>
                 </LineItems>
               </xsl:if>
             </xsl:for-each>
