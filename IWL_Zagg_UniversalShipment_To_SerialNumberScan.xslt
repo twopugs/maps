@@ -32,9 +32,7 @@
                   <ProductSKU>
                     <xsl:value-of select="s0:Product/s0:Code/text()" />
                   </ProductSKU>
-                  <!-- <QtyShipped> -->
-				  	<!-- <xsl:value-of select="s0:QuantityMet/text()" /> -->
-				  <!-- </QtyShipped> -->
+                  <QtyShipped>ToBeReplace</QtyShipped>
                     <xsl:for-each select="../../../s0:CommercialInfo/s0:CommercialInvoiceCollection/s0:CommercialInvoice/s0:CommercialInvoiceLineCollection/s0:CommercialInvoiceLine[s0:OrderLineLink=$Link]">
 						<SerialNumbers>
 							<xsl:value-of select="s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='Serial Number']/s0:Value/text()" />
@@ -49,16 +47,16 @@
 							<ToRemoveInvoiceCode>
 								<xsl:value-of select="s0:InvoiceQuantityUnit/s0:Code/text()" />
 							</ToRemoveInvoiceCode>
-							<xsl:if test="s0:InvoiceQuantity !=''" >
+							<xsl:if test="s0:InvoiceQuantity !='' and s0:InvoiceQuantity !=0" >
 								
 								<xsl:choose>
 									<xsl:when test="substring-after(s0:InvoiceQuantity/text(),'.') > 0"> 
-										<QtyShipped>0</QtyShipped>
+										<InvoiceQuantity>0</InvoiceQuantity>
 									</xsl:when>
 									<xsl:otherwise>
-										<QtyShipped>
-											<xsl:value-of select="concat('Remove', position(),'_', s0:InvoiceQuantity/text())" />
-										</QtyShipped>
+										<InvoiceQuantity>
+											<xsl:value-of select="s0:InvoiceQuantity/text()" />
+										</InvoiceQuantity>
 									</xsl:otherwise>
 								</xsl:choose>
 								
