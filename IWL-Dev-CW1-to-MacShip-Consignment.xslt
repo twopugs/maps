@@ -164,21 +164,23 @@
 			<dgsDeclaration>false</dgsDeclaration>
 			<!-- <defaultRouteSelection>cheapest</defaultRouteSelection> -->
 			<customerReference>
-				<xsl:value-of select="s0:Shipment/s0:Order/s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='Machship_reference1']/s0:Value"/>
+				<xsl:value-of select="s0:Shipment/s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='Machship_reference1']/s0:Value"/>
 			</customerReference>
 			<customerReference2>
-				<xsl:value-of select="s0:Shipment/s0:Order/s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='Machship_reference2']/s0:Value"/>
+				<xsl:value-of select="s0:Shipment/s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='Machship_reference2']/s0:Value"/>
 			</customerReference2>
-			
-			<xsl:for-each select="s0:Shipment/s0:Order/s0:CustomizedFieldCollection/s0:CustomizedField">
+										
+			<xsl:for-each select="s0:Shipment/s0:CustomizedFieldCollection/s0:CustomizedField">
 			
 				<xsl:if test="s0:Key = 'MachShip_Type'">
 					<xsl:choose>
+						<xsl:when test="s0:Value = 'B2C'"> 
+							<companyId>3151</companyId>
+						</xsl:when>
 						<xsl:when test="s0:Value = 'B2B'"> 
 							<companyId>3162</companyId>
 						</xsl:when>
 						<xsl:otherwise>
-							<companyId>3161</companyId>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:if>
