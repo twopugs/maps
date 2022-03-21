@@ -72,6 +72,11 @@
 											<xsl:value-of select="WAEHRUNG/text()" />
 										</Code>
 									</SellOSCurrency>
+									<ChargeCode>
+										<Code>
+											<xsl:value-of select="ABRECHNUNGPOS/LEISTUNGSARTMATCHCODE/text()" />
+										</Code>
+									</ChargeCode>
 								</ChargeLine>
 							</xsl:for-each>
 					</ChargeLineCollection>
