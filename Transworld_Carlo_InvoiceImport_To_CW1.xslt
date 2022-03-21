@@ -5,7 +5,7 @@
 		<xsl:apply-templates select="/Headers" />
 	</xsl:template>
 	<xsl:template match="/Headers">
-		<UniversalTransactions xmlns:ns0="http://www.cargowise.com/Schemas/Universal/2011/11">
+		
 			<UniversalTransaction>
 					
 				
@@ -37,7 +37,7 @@
 						<AddressType>OFC</AddressType>
 					</OrganizationAddress>
 					<TransactionDate>
-						<xsl:value-of select="Detail[Col1='OP']/Col12/text()"/>
+						<xsl:value-of select="concat(substring(Detail[Col1='OP']/Col12,5,5),'-',substring(Detail[Col1='OP']/Col12,3,2),'-',substring(Detail[Col1='OP']/Col12,0,3),'T00:00:00')"/>
 					</TransactionDate>
 					
 						
@@ -56,11 +56,6 @@
 							</xsl:otherwise>
 						</xsl:choose>
 								
-					
-					
-					
-					
-					
 					<xsl:if test="Detail[Col1='OP']/Col15 != ''">
 						<xsl:variable name='Key' select="Detail[Col1='OP']/Col15/text()"/>
 					</xsl:if>
@@ -97,7 +92,6 @@
 						</xsl:for-each>
 					</PostingJournalCollection>
 				</TransactionInfo>
-			</UniversalTransaction>
-		</UniversalTransactions>
+		</UniversalTransaction>
 	</xsl:template>
 </xsl:stylesheet>
