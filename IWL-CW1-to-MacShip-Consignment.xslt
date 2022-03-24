@@ -163,15 +163,38 @@
 			</xsl:for-each>
 			<dgsDeclaration>false</dgsDeclaration>
 			<!-- <defaultRouteSelection>cheapest</defaultRouteSelection> -->
-			<customerReference>
-				<xsl:value-of select="s0:Shipment/s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='Machship_reference1']/s0:Value"/>
-			</customerReference>
-			<customerReference2>
-				<xsl:value-of select="s0:Shipment/s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='Machship_reference2']/s0:Value"/>
-			</customerReference2>
+			
 										
 			<xsl:for-each select="s0:Shipment/s0:CustomizedFieldCollection/s0:CustomizedField">
-			
+				<xsl:variable name="LOWER" select="'abcdefghijklmnopqrstuvwxyz'" />
+				<xsl:variable name="UPPER" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
+				<xsl:variable name="Key">
+						<xsl:choose>
+							<xsl:when test="s0:Key != ''">
+								<xsl:value-of select="translate(s0:Key, $UPPER, $LOWER)"/>
+							</xsl:when>				
+							<xsl:otherwise>	
+								<xsl:value-of select="string('')" />
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+					
+					
+						<xsl:if test="$Key = 'machship_reference1'">
+							<customerReference>
+								<xsl:value-of select="s0:Value"/>
+							</customerReference>
+							</xsl:if>
+					
+					
+						<xsl:if test="$Key = 'machship_reference2'">
+							<customerReference2>
+								<xsl:value-of select="s0:Value"/>
+							</customerReference2>
+						</xsl:if>
+					
+					
+					
 				<xsl:if test="s0:Key = 'MachShip_Type'">
 					<xsl:choose>
 						<xsl:when test="s0:Value = 'B2C'"> 
