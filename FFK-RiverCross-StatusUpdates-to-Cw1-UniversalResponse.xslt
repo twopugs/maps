@@ -32,12 +32,6 @@
 						<EventReference>
 							<xsl:value-of select="concat('RES=Truck ',$vehicle_reg,' assigned to leg | LOC=',$geoReference,' | TransporterName=',$transporter_name,' | Vehicle=',$vehicle_reg)"/>
 						</EventReference>
-						<AdditionalFieldsToUpdateCollection>
-							<AdditionalFieldsToUpdate>
-								<Type>ignore</Type>
-								<Value>ignore</Value>
-							</AdditionalFieldsToUpdate>
-						</AdditionalFieldsToUpdateCollection>
 					</xsl:when>
 					<xsl:when test="$geoTrigger = 'LOADING'"> 
 						<EventType>ARV</EventType>
@@ -68,16 +62,16 @@
 						</AdditionalFieldsToUpdateCollection>
 					</xsl:when>
 					<xsl:when test="$geoTrigger = 'BORDER OUTBOUND'"> 
-						<EventType>Z51</EventType>
+						<EventType>Z50</EventType>
 						<EventReference>
 							<xsl:value-of select="concat('RES=Truck ',$vehicle_reg,' arrived at border en route to offload | LOC=',$geoReference,' | TransporterName=',$transporter_name,' | Vehicle=',$vehicle_reg)"/>
 						</EventReference>
-						<AdditionalFieldsToUpdateCollection>
-							<AdditionalFieldsToUpdate>
-								<Type>ignore</Type>
-								<Value>ignore</Value>
-							</AdditionalFieldsToUpdate>
-						</AdditionalFieldsToUpdateCollection>
+					</xsl:when>
+					<xsl:when test="$geoTrigger = 'BORDER-OUTBOUND'"> 
+						<EventType>Z50</EventType>
+						<EventReference>
+							<xsl:value-of select="concat('RES=Truck ',$vehicle_reg,' arrived at border en route to offload | LOC=',$geoReference,' | TransporterName=',$transporter_name,' | Vehicle=',$vehicle_reg)"/>
+						</EventReference>
 					</xsl:when>
 					<xsl:when test="$geoTrigger = 'OFFLOADING'"> 
 						<EventType>ARV</EventType>
@@ -107,17 +101,17 @@
 							</AdditionalFieldsToUpdate>
 						</AdditionalFieldsToUpdateCollection>
 					</xsl:when>
-					<xsl:when test="$geoTrigger = 'BORDER -INBOUND'"> 
+					<xsl:when test="$geoTrigger = 'BORDER-INBOUND'"> 
 						<EventType>Z51</EventType>
 						<EventReference>
 							<xsl:value-of select="concat('RES=Truck ',$vehicle_reg,' arrived at border return trip | LOC=',$geoReference,' | TransporterName=',$transporter_name,' | Vehicle=',$vehicle_reg)"/>
 						</EventReference>
-						<AdditionalFieldsToUpdateCollection>
-							<AdditionalFieldsToUpdate>
-								<Type>ignore</Type>
-								<Value>ignore</Value>
-							</AdditionalFieldsToUpdate>
-						</AdditionalFieldsToUpdateCollection>
+					</xsl:when>
+					<xsl:when test="$geoTrigger = 'BORDER INBOUND'"> 
+						<EventType>Z50</EventType>
+						<EventReference>
+							<xsl:value-of select="concat('RES=Truck ',$vehicle_reg,' arrived at border return trip | LOC=',$geoReference,' | TransporterName=',$transporter_name,' | Vehicle=',$vehicle_reg)"/>
+						</EventReference>
 					</xsl:when>
 					<xsl:otherwise>
 					</xsl:otherwise>
