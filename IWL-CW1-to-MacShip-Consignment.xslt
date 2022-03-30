@@ -193,20 +193,36 @@
 							</customerReference2>
 						</xsl:if>
 					
+						<xsl:if test="$Key = 'machship_type'">
+							<xsl:choose>
+								<xsl:when test="s0:Value = 'B2C'"> 
+									<companyId>3151</companyId>
+									<carrierId>513</carrierId> 
+									<carrierServiceId>3709</carrierServiceId> 
+								</xsl:when> 
+								<xsl:when test="s0:Value = 'B2B'"> 
+									<companyId>3162</companyId>
+									<carrierId>881</carrierId> 
+									<carrierServiceId>4818</carrierServiceId> 
+								</xsl:when>
+								<xsl:otherwise>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:if>
 					
 					
-				<xsl:if test="s0:Key = 'MachShip_Type'">
-					<xsl:choose>
-						<xsl:when test="s0:Value = 'B2C'"> 
-							<companyId>3151</companyId>
-						</xsl:when>
-						<xsl:when test="s0:Value = 'B2B'"> 
-							<companyId>3162</companyId>
-						</xsl:when>
-						<xsl:otherwise>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:if>
+				<!-- <xsl:if test="s0:Key = 'MachShip_Type'"> -->
+					<!-- <xsl:choose> -->
+						<!-- <xsl:when test="s0:Value = 'B2C'">  -->
+							<!-- <companyId>3151</companyId> -->
+						<!-- </xsl:when> -->
+						<!-- <xsl:when test="s0:Value = 'B2B'">  -->
+							<!-- <companyId>3162</companyId> -->
+						<!-- </xsl:when> -->
+						<!-- <xsl:otherwise> -->
+						<!-- </xsl:otherwise> -->
+					<!-- </xsl:choose> -->
+				<!-- </xsl:if> -->
 				
 			</xsl:for-each>
 		
@@ -221,9 +237,9 @@
 					<fromPhone>
 						<xsl:value-of select="s0:Phone"/>
 					</fromPhone>
-					<fromEmail>
-						<xsl:value-of select="s0:Email"/>
-					</fromEmail>
+					<fromEmail>orders@iwlogistics.com.au</fromEmail>
+						<!-- <xsl:value-of select="s0:Email"/> -->
+					<!-- </fromEmail> -->
 					<fromAddressLine1>
 						<xsl:value-of select="s0:Address1"/>
 					</fromAddressLine1>
