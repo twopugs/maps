@@ -145,19 +145,33 @@
 						<Weight>
 							<xsl:value-of select="concat('[Replace]',s0:Weight,'[Replace]')"/>
 						</Weight>
-							<xsl:if test="$LengthUnitCode = 'M'">
-								
-								<Height>
-									<xsl:value-of select="concat('[Replace]',string(s0:Height * 100),'[Replace]')"/>
-								</Height>
-								
-								<Length>
-									<xsl:value-of select="concat('[Replace]',string(s0:Length * 100),'[Replace]')"/>
-								</Length>
-								<Width>
-									<xsl:value-of select="concat('[Replace]',string(s0:Width * 100),'[Replace]')"/>
-								</Width>
-							</xsl:if>
+						
+							<xsl:choose>
+								<xsl:when  test="$LengthUnitCode = 'M'">
+									<Height>
+										<xsl:value-of select="concat('[Replace]',string(s0:Height * 100),'[Replace]')"/>
+									</Height>
+									
+									<Length>
+										<xsl:value-of select="concat('[Replace]',string(s0:Length * 100),'[Replace]')"/>
+									</Length>
+									<Width>
+										<xsl:value-of select="concat('[Replace]',string(s0:Width * 100),'[Replace]')"/>
+									</Width>
+								</xsl:when>				
+								<xsl:otherwise>	
+									<Height>
+										<xsl:value-of select="concat('[Replace]',s0:Height,'[Replace]')"/>
+									</Height>
+									
+									<Length>
+										<xsl:value-of select="concat('[Replace]',s0:Length,'[Replace]')"/>
+									</Length>
+									<Width>
+										<xsl:value-of select="concat('[Replace]',s0:Width,'[Replace]')"/>
+									</Width>
+								</xsl:otherwise>
+							</xsl:choose>
 						
 					</Items>
 			</xsl:for-each>
