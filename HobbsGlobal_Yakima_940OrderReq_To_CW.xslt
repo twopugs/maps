@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-16"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:var="http://schemas.microsoft.com/BizTalk/2003/var" exclude-result-prefixes="msxsl var s0 userCSharp" version="1.0" xmlns:s0="http://www.spscommerce.com/RSX" xmlns:ns0="http://www.cargowise.com/Schemas/Universal/2011/11" xmlns:userCSharp="http://schemas.microsoft.com/BizTalk/2003/userCSharp">
   <xsl:output omit-xml-declaration="yes" method="xml" version="1.0" />
   <xsl:key name="Key_Console" match="//s0:Order" use="s0:Header/s0:OrderHeader/s0:PurchaseOrderNumber"/>
@@ -162,6 +162,11 @@
                   <State>
                     <xsl:value-of select="translate(s0:State/text(), $char-in, $char-out)" />
                   </State>
+				  <xsl:if test="s0:Email">
+                    <Email>
+                      <xsl:value-of select="translate(s0:Email/text(), $char-in, $char-out)" />
+                    </Email>
+                  </xsl:if>
                 </xsl:for-each>
               </OrganizationAddress>
               <OrganizationAddress>
