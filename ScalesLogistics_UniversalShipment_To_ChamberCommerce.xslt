@@ -7,14 +7,73 @@
   <xsl:template match="/s0:UniversalInterchange">
     <xsl:for-each select="s0:Body/s0:UniversalShipment">
       <xsl:variable name="vPortOfDestination" select="userCSharp:getAgreementType(substring(s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:PortOfDestination/s0:Code/text(),1,2))" />
+     
+		<!-- get the length of address1 for ConsigneeDocumentaryAddress -->
+		<xsl:variable name="LengthConsigneeDocumentaryAddress">
+			<xsl:choose>
+				<xsl:when test="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1 != ''">
+					<xsl:value-of select="string-length(s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1)"/>
+				</xsl:when>				
+				<xsl:otherwise>	
+					<xsl:value-of select="string('NA')" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
+		<!-- if address1 of ConsigneeDocumentaryAddress is greater than 65 get the excess length -->
+		<xsl:variable name="LengthConsigneeDocumentaryAddressGT">
+			<xsl:choose>
+					<xsl:when test="$LengthConsigneeDocumentaryAddress > 65">
+						<xsl:value-of select="number($LengthConsigneeDocumentaryAddress) - 65"/>
+					</xsl:when>	
+					<xsl:otherwise>	
+						<xsl:value-of select="string('NA')" />
+					</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+					
+					
+		<!-- get the length of address1 for ConsignorDocumentaryAddress -->
+		<xsl:variable name="LengthConsignorDocumentaryAddress">
+			<xsl:choose>
+				<xsl:when test="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1 != ''">
+					<xsl:value-of select="string-length(s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1)"/>
+				</xsl:when>				
+				<xsl:otherwise>	
+					<xsl:value-of select="string('NA')" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
+		<!-- if address1 of ConsignorDocumentaryAddress is greater than 65 get the excess length -->
+		<xsl:variable name="LengthConsignorDocumentaryAddressGT">
+			<xsl:choose>
+					<xsl:when test="$LengthConsignorDocumentaryAddress > 65">
+						<xsl:value-of select="number($LengthConsignorDocumentaryAddress) - 65"/>
+					</xsl:when>	
+					<xsl:otherwise>	
+						<xsl:value-of select="string('NA')" />
+					</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>		
 
-      <xsl:choose>
+
+ <xsl:choose>
         <xsl:when test="$vPortOfDestination='AANZFTA'">
           <ChamberCommerce_AANZFTA>
             <consignee>
-              <buildingOrStreetNumber>
-                <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1"/>
-              </buildingOrStreetNumber>
+				  <xsl:choose>
+					<xsl:when test="$LengthConsigneeDocumentaryAddress > 65">
+						<buildingOrStreetNumber>
+							<xsl:value-of select="substring(s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1,0,66)"/>
+						</buildingOrStreetNumber>
+					</xsl:when>	
+					<xsl:otherwise>	
+						<buildingOrStreetNumber>
+							<xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1"/>
+						</buildingOrStreetNumber>
+					</xsl:otherwise>
+				</xsl:choose>
               <city>
                 <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:City"/>
               </city>
@@ -27,9 +86,24 @@
               <postcode>
                 <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:PostCode"/>
               </postcode>
-              <streetAddress>
-                <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1"/>
-              </streetAddress>
+              <!-- <streetAddress> -->
+                <!-- <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1"/> -->
+              <!-- </streetAddress> -->
+			   <xsl:if test="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1 !=''">
+					<xsl:choose>
+						<xsl:when test="$LengthConsigneeDocumentaryAddressGT != 'NA'">
+							<streetAddress>
+								<xsl:value-of select="substring(s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1,66,number($LengthConsigneeDocumentaryAddressGT))"/>
+							</streetAddress>
+						</xsl:when>	
+						<xsl:otherwise>	
+							<streetAddress>
+								<xsl:value-of select="string('.')" />
+							</streetAddress>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:if>
+			  
               <suburb>
                 <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address2"/>
               </suburb>
@@ -39,9 +113,22 @@
               <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='NZCC eCertifyCompanyReference']/s0:Value"/>
             </eCertifyCompanyReference>
             <exporter>
-              <buildingOrStreetNumber>
-                <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1"/>
-              </buildingOrStreetNumber>
+              <!-- <buildingOrStreetNumber> -->
+                <!-- <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1"/> -->
+              <!-- </buildingOrStreetNumber> -->
+			   <xsl:choose>
+					<xsl:when test="$LengthConsignorDocumentaryAddress > 65">
+						<buildingOrStreetNumber>
+							<xsl:value-of select="substring(s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1,0,66)"/>
+						</buildingOrStreetNumber>
+					</xsl:when>	
+					<xsl:otherwise>	
+						<buildingOrStreetNumber>
+							<xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1"/>
+						</buildingOrStreetNumber>
+					</xsl:otherwise>
+				</xsl:choose>
+			  
               <city>
                 <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:City"/>
               </city>
@@ -54,9 +141,24 @@
               <postcode>
                 <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:PostCode"/>
               </postcode>
-              <streetAddress>
-                <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1"/>
-              </streetAddress>
+              <!-- <streetAddress> -->
+                <!-- <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1"/> -->
+              <!-- </streetAddress> -->
+			  <xsl:if test="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1 !=''">
+					<xsl:choose>
+						<xsl:when test="$LengthConsignorDocumentaryAddressGT != 'NA'">
+							<streetAddress>
+								<xsl:value-of select="substring(s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1,66,number($LengthConsignorDocumentaryAddressGT))"/>
+							</streetAddress>
+						</xsl:when>	
+						<xsl:otherwise>	
+							<streetAddress>
+								<xsl:value-of select="string('.')" />
+							</streetAddress>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:if>
+			  
               <suburb>
                 <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address2"/>
               </suburb>
@@ -72,9 +174,27 @@
             </isDraft>
          <xsl:for-each select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:CommercialInfo/s0:CommercialInvoiceCollection/s0:CommercialInvoice/s0:CommercialInvoiceLineCollection/s0:CommercialInvoiceLine">
             <items json:Array='true'>
-                <goodsDescription>
+                <!-- <goodsDescription> -->
+                  <!-- <xsl:value-of select="s0:Description"/> -->
+                <!-- </goodsDescription> -->
+				<goodsDescription>
                   <xsl:value-of select="s0:Description"/>
-                </goodsDescription>
+				  <xsl:if test="s0:InvoiceQuantity !='' or s0:InvoiceQuantityUnit/s0:Description!=''">
+					<xsl:text>&#xa;</xsl:text>
+					<xsl:choose>
+						<xsl:when test="contains(s0:InvoiceQuantity,'.')">
+							<xsl:value-of select="concat(substring-before(s0:InvoiceQuantity,'.'),' x ',s0:InvoiceQuantityUnit/s0:Description)"/>
+						</xsl:when>
+						<xsl:when test="not(contains(s0:InvoiceQuantity,'.'))">
+							<xsl:value-of select="concat(s0:InvoiceQuantity,' x ',s0:InvoiceQuantityUnit/s0:Description)"/>
+						</xsl:when>
+						<xsl:otherwise>
+						</xsl:otherwise>
+					</xsl:choose>
+				   </xsl:if>
+				 </goodsDescription>
+				
+				
                 <grossWeight>
                   <xsl:value-of select="s0:Weight"/>
                 </grossWeight>
@@ -204,9 +324,22 @@
         <xsl:when test="$vPortOfDestination='NZCFTA'">
           <ChamberCommerce_NZCFTA>
             <consignee>
-              <buildingOrStreetNumber>
-                <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1"/>
-              </buildingOrStreetNumber>
+              <!-- <buildingOrStreetNumber> -->
+                <!-- <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1"/> -->
+              <!-- </buildingOrStreetNumber> -->
+			  <xsl:choose>
+					<xsl:when test="$LengthConsigneeDocumentaryAddress > 65">
+						<buildingOrStreetNumber>
+							<xsl:value-of select="substring(s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1,0,66)"/>
+						</buildingOrStreetNumber>
+					</xsl:when>	
+					<xsl:otherwise>	
+						<buildingOrStreetNumber>
+							<xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1"/>
+						</buildingOrStreetNumber>
+					</xsl:otherwise>
+				</xsl:choose>
+			  
               <city>
                 <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:City"/>
               </city>
@@ -219,9 +352,26 @@
               <postcode>
                 <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:PostCode"/>
               </postcode>
-              <streetAddress>
-                <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1"/>
-              </streetAddress>
+              <!-- <streetAddress> -->
+                <!-- <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1"/> -->
+              <!-- </streetAddress> -->
+			  
+			  <xsl:if test="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1 !=''">
+					<xsl:choose>
+						<xsl:when test="$LengthConsigneeDocumentaryAddressGT != 'NA'">
+							<streetAddress>
+								<xsl:value-of select="substring(s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address1,66,number($LengthConsigneeDocumentaryAddressGT))"/>
+							</streetAddress>
+						</xsl:when>	
+						<xsl:otherwise>	
+							<streetAddress>
+								<xsl:value-of select="string('.')" />
+							</streetAddress>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:if>
+			  
+			  
               <suburb>
                 <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsigneeDocumentaryAddress']/s0:Address2"/>
               </suburb>
@@ -231,9 +381,23 @@
               <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='NZCC eCertifyCompanyReference']/s0:Value"/>
             </eCertifyCompanyReference>
             <exporter>
-              <buildingOrStreetNumber>
-                <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1"/>
-              </buildingOrStreetNumber>
+              <!-- <buildingOrStreetNumber> -->
+                <!-- <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1"/> -->
+              <!-- </buildingOrStreetNumber> -->
+			  <xsl:choose>
+					<xsl:when test="$LengthConsignorDocumentaryAddress > 65">
+						<buildingOrStreetNumber>
+							<xsl:value-of select="substring(s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1,0,66)"/>
+						</buildingOrStreetNumber>
+					</xsl:when>	
+					<xsl:otherwise>	
+						<buildingOrStreetNumber>
+							<xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1"/>
+						</buildingOrStreetNumber>
+					</xsl:otherwise>
+				</xsl:choose>
+			  
+			  
               <city>
                 <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:City"/>
               </city>
@@ -246,18 +410,46 @@
               <postcode>
                 <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:PostCode"/>
               </postcode>
-              <streetAddress>
-                <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1"/>
-              </streetAddress>
+              <!-- <streetAddress> -->
+                <!-- <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1"/> -->
+              <!-- </streetAddress> -->
+			  <xsl:if test="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1 !=''">
+					<xsl:choose>
+						<xsl:when test="$LengthConsignorDocumentaryAddressGT != 'NA'">
+							<streetAddress>
+								<xsl:value-of select="substring(s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1,66,number($LengthConsignorDocumentaryAddressGT))"/>
+							</streetAddress>
+						</xsl:when>	
+						<xsl:otherwise>	
+							<streetAddress>
+								<xsl:value-of select="string('.')" />
+							</streetAddress>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:if>
+			  
               <suburb>
                 <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address2"/>
               </suburb>
             </exporter>
             <xsl:if test="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='NZCC First Producer Criteria']/s0:Value/text()='Details' and s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:CustomizedFieldCollection/s0:CustomizedField[s0:Key='NZCC Draft']/s0:Value/text()='false'">
             <firstProducer>
-              <buildingOrStreetNumber>
-                <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1"/>
-              </buildingOrStreetNumber>
+              <!-- <buildingOrStreetNumber> -->
+                <!-- <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1"/> -->
+              <!-- </buildingOrStreetNumber> -->
+			  <xsl:choose>
+					<xsl:when test="$LengthConsignorDocumentaryAddress > 65">
+						<buildingOrStreetNumber>
+							<xsl:value-of select="substring(s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1,0,66)"/>
+						</buildingOrStreetNumber>
+					</xsl:when>	
+					<xsl:otherwise>	
+						<buildingOrStreetNumber>
+							<xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1"/>
+						</buildingOrStreetNumber>
+					</xsl:otherwise>
+				</xsl:choose>
+			  
               <city>
                 <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:City"/>
               </city>
@@ -270,9 +462,24 @@
               <postcode>
                 <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:PostCode"/>
               </postcode>
-              <streetAddress>
-                <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1"/>
-              </streetAddress>
+              <!-- <streetAddress> -->
+                <!-- <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1"/> -->
+              <!-- </streetAddress> -->
+			  <xsl:if test="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1 !=''">
+					<xsl:choose>
+						<xsl:when test="$LengthConsignorDocumentaryAddressGT != 'NA'">
+							<streetAddress>
+								<xsl:value-of select="substring(s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address1,66,number($LengthConsignorDocumentaryAddressGT))"/>
+							</streetAddress>
+						</xsl:when>	
+						<xsl:otherwise>	
+							<streetAddress>
+								<xsl:value-of select="string('.')" />
+							</streetAddress>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:if>
+			  
               <suburb>
                 <xsl:value-of select="s0:Shipment/s0:SubShipmentCollection/s0:SubShipment/s0:OrganizationAddressCollection/s0:OrganizationAddress[s0:AddressType='ConsignorDocumentaryAddress']/s0:Address2"/>
               </suburb>
@@ -296,7 +503,20 @@
             <items json:Array='true'>
                 <goodsDescription>
                   <xsl:value-of select="s0:Description"/>
-                </goodsDescription>
+				  <xsl:if test="s0:InvoiceQuantity !='' or s0:InvoiceQuantityUnit/s0:Description!=''">
+					<xsl:text>&#xa;</xsl:text>
+					<xsl:choose>
+						<xsl:when test="contains(s0:InvoiceQuantity,'.')">
+							<xsl:value-of select="concat(substring-before(s0:InvoiceQuantity,'.'),' x ',s0:InvoiceQuantityUnit/s0:Description)"/>
+						</xsl:when>
+						<xsl:when test="not(contains(s0:InvoiceQuantity,'.'))">
+							<xsl:value-of select="concat(s0:InvoiceQuantity,' x ',s0:InvoiceQuantityUnit/s0:Description)"/>
+						</xsl:when>
+						<xsl:otherwise>
+						</xsl:otherwise>
+					</xsl:choose>
+				   </xsl:if>
+				 </goodsDescription>
                 <grossWeight>
                   <xsl:value-of select="s0:Weight"/>
                 </grossWeight>
@@ -452,7 +672,7 @@ AgreementType.Add("SG","AANZFTA");
 AgreementType.Add("TH","AANZFTA");
 AgreementType.Add("VN","AANZFTA");
 AgreementType.Add("CN","NZCFTA");
-
+AgreementType.Add("HK","NZCFTA");
 
   if (AgreementType.ContainsKey(inputDataString))
        outDataString = AgreementType[inputDataString];
