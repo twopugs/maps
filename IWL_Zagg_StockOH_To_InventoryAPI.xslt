@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-16"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:var="http://schemas.microsoft.com/BizTalk/2003/var" exclude-result-prefixes="msxsl var json userCSharp" version="1.0"  xmlns:userCSharp="http://schemas.microsoft.com/BizTalk/2003/userCSharp" xmlns:json='http://james.newtonking.com/projects/json'>
   <xsl:output omit-xml-declaration="yes" method="xml" version="1.0"/>
   <xsl:key name="OrderGroup" match="ZaggSOH_Rcd" use="Product"/>
@@ -11,6 +11,7 @@
         <Location_ID>106</Location_ID>
         <xsl:for-each select="ZaggSOH_Rcd[generate-id(.)=generate-id(key('OrderGroup',Product))]">
           <Items json:Array='true'>
+          <!-- <Items> -->
             <Item_Number>
               <xsl:value-of select="Product"/>
             </Item_Number>
