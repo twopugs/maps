@@ -45,38 +45,38 @@
 			<details>
 				<pickup>
 					<locationName>
-						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC' and Sequence='1']/Address/CompanyName"/>
+						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC']/Address/CompanyName"/>
 					</locationName>
 					<locationType>
-						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC' and Sequence='1']/Address/AddressType"/>
+						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC']/Address/AddressType"/>
 					</locationType>
 					<address>
-						<xsl:value-of select="concat(Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC' and Sequence='1']/Address/Address1,' ',
-													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC' and Sequence='1']/Address/Address2,' ',
-													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC' and Sequence='1']/Address/City,' ',
-													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC' and Sequence='1']/Address/State,' ',
-													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC' and Sequence='1']/Address/Postcode,' ',
-													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC' and Sequence='1']/Address/Country/Name)"/>
+						<xsl:value-of select="concat(Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC']/Address/Address1,' ',
+													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC']/Address/Address2,' ',
+													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC']/Address/City,' ',
+													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC']/Address/State,' ',
+													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC']/Address/Postcode,' ',
+													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC']/Address/Country/Name)"/>
 													 
 					</address>
 					<lat></lat>
 					<lng></lng>
 					<additionalAddress></additionalAddress>
 					<scheduleEarliest>
-						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC' and Sequence='1']/InstructionPackingLineLinkCollection/InstructionPackingLineLink/ConfirmationCollection/Confirmation/EstimatedDate"/>
+						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC']/InstructionPackingLineLinkCollection/InstructionPackingLineLink/ConfirmationCollection/Confirmation/EstimatedDate"/>
 					</scheduleEarliest>     
 					<scheduleLatest>
-						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC' and Sequence='1']/InstructionPackingLineLinkCollection/InstructionPackingLineLink/ConfirmationCollection/Confirmation/EstimatedDate"/>
+						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC']/InstructionPackingLineLinkCollection/InstructionPackingLineLink/ConfirmationCollection/Confirmation/EstimatedDate"/>
 					</scheduleLatest>
 					<driverInstruction>
-						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC' and Sequence='1']/ServiceInstruction"/>
+						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC']/ServiceInstruction"/>
 					</driverInstruction>
 					<contactName></contactName>
 					<contactPhoneNumber>
-						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC' and Sequence='1']/Address/Phone"/>
+						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC']/Address/Phone"/>
 					</contactPhoneNumber>
 					<contactEmail>
-						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC' and Sequence='1']/Address/Email"/>
+						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC']/Address/Email"/>
 					</contactEmail>
 					<references>
 						<xsl:value-of select="Body/UniversalShipment/Shipment/INSERT"/>
@@ -85,46 +85,57 @@
 			
 				<delivery>
 					<locationName>
-						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV' and Sequence='1']/Address/CompanyName"/>
+						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV']/Address/CompanyName"/>
 					</locationName>
 					<locationType>
-						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV' and Sequence='1']/Address/AddressType"/>
+						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV']/Address/AddressType"/>
 					</locationType>
 					<address>
-						<xsl:value-of select="concat(Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV' and Sequence='1']/Address/Address1,' ',
-													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV' and Sequence='1']/Address/Address2,' ',
-													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV' and Sequence='1']/Address/City,' ',
-													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV' and Sequence='1']/Address/State,' ',
-													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV' and Sequence='1']/Address/Postcode,' ',
-													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV' and Sequence='1']/Address/Country/Name)"/>
+						<xsl:value-of select="concat(Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV']/Address/Address1,' ',
+													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV']/Address/Address2,' ',
+													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV']/Address/City,' ',
+													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV']/Address/State,' ',
+													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV']/Address/Postcode,' ',
+													 Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV']/Address/Country/Name)"/>
 													 
 					</address>
 					<lat></lat>
 					<lng></lng>
 					<additionalAddress></additionalAddress>
 					<scheduleEarliest>
-						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV' and Sequence='1']/InstructionPackingLineLinkCollection/InstructionPackingLineLink/ConfirmationCollection/Confirmation/EstimatedDate"/>
+						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV']/InstructionPackingLineLinkCollection/InstructionPackingLineLink/ConfirmationCollection/Confirmation/EstimatedDate"/>
 					</scheduleEarliest>     
 					<scheduleLatest>
-						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV' and Sequence='1']/InstructionPackingLineLinkCollection/InstructionPackingLineLink/ConfirmationCollection/Confirmation/EstimatedDate"/>
+						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV']/InstructionPackingLineLinkCollection/InstructionPackingLineLink/ConfirmationCollection/Confirmation/EstimatedDate"/>
 					</scheduleLatest>
 					<driverInstruction>
-						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV' and Sequence='1']/ServiceInstruction"/>
+						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV']/ServiceInstruction"/>
 					</driverInstruction>
 					<contactName></contactName>
 					<contactPhoneNumber>
-						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV' and Sequence='1']/Address/Phone"/>
+						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV']/Address/Phone"/>
 					</contactPhoneNumber>
 					<contactEmail>
-						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV' and Sequence='1']/Address/Email"/>
+						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='DLV']/Address/Email"/>
 					</contactEmail>
 					<references>
 						<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/LocalProcessing/OrderNumberCollection/OrderNumber/OrderReference"/>
 					</references>
 				</delivery>
 				
+					<xsl:variable name="PackingLineLink">
+						<xsl:choose>
+							<xsl:when test="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC']/InstructionPackingLineLinkCollection/InstructionPackingLineLink/PackingLineLink != ''">
+								<xsl:value-of select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/InstructionCollection/Instruction[Type/Code='PIC']/InstructionPackingLineLinkCollection/InstructionPackingLineLink/PackingLineLink"/>
+							</xsl:when>				
+							<xsl:otherwise>	
+								<xsl:value-of select="string('')" />
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
 				
-				<xsl:for-each select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/PackingLineCollection/PackingLine">
+				<!-- <xsl:for-each select="Body/UniversalShipment/Shipment/SubShipmentCollection/SubShipment/PackingLineCollection/PackingLine"> -->
+				<xsl:for-each select="/UniversalInterchange/Body/UniversalShipment/Shipment/PackingLineCollection/PackingLine[Link=$PackingLineLink]">
 					<loads>
 						<unitQuantity>
 							<xsl:value-of select="PackQty"/>
