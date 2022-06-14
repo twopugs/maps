@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-16"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:var="http://schemas.microsoft.com/BizTalk/2003/var" exclude-result-prefixes="msxsl var s0 userCSharp" version="1.0" xmlns:s0="NetoAPI" xmlns:ns0="http://www.cargowise.com/Schemas/Universal/2011/11" xmlns:userCSharp="http://schemas.microsoft.com/BizTalk/2003/userCSharp">
   <xsl:output omit-xml-declaration="yes" method="xml" version="1.0" />
   <xsl:template match="/">
@@ -17,18 +17,18 @@
               </DataTargetCollection>
             </DataContext>
             <LocalProcessing>
-              <DeliveryRequiredBy>
+              <DeliveryRequiredBy>REPLACE</DeliveryRequiredBy>
 
-                <xsl:choose>
-                <xsl:when test="string-length(DateRequired/text())>0">
-                  <xsl:value-of select="userCSharp:ConvertDateRequiredValue(DateRequired/text())"/>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:value-of select="userCSharp:GetDateTimeNow()"/>
-                </xsl:otherwise>
-              </xsl:choose>
+                <!-- <xsl:choose> -->
+                <!-- <xsl:when test="string-length(DateRequired/text())>0"> -->
+                  <!-- <xsl:value-of select="userCSharp:ConvertDateRequiredValue(DateRequired/text())"/> -->
+                <!-- </xsl:when> -->
+                <!-- <xsl:otherwise> -->
+                  <!-- <xsl:value-of select="userCSharp:GetDateTimeNow()"/> -->
+                <!-- </xsl:otherwise> -->
+              <!-- </xsl:choose> -->
                
-            </DeliveryRequiredBy>
+            
             </LocalProcessing>
             <OrganizationAddressCollection>
               <OrganizationAddress>
@@ -115,11 +115,67 @@
                     <OrderedQty>
                       <xsl:value-of select="quantity/text()"/>
                     </OrderedQty>
-                    <Product>
-                      <Code>
-                        <xsl:value-of select="sku/text()"/>
-                      </Code>
-                    </Product>
+                    
+					
+					<xsl:variable name="Code">
+						<xsl:choose>
+							<xsl:when test="string-length(sku/text())>0">
+								<xsl:value-of select="substring(sku/text(),(string-length(sku/text())-1),2)"/>
+							</xsl:when>				
+							<xsl:otherwise>	
+								<xsl:value-of select="string('NULL')" />
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+					<TEST>
+                        <xsl:value-of select="substring($Code,2,1)"/>
+                      </TEST>
+					<xsl:if test="$Code !='NULL'">
+						<xsl:choose>
+							<xsl:when test="$Code ='CS'">
+								<Product>
+									<Code>
+										<xsl:value-of select="substring(sku/text(),1,(string-length(sku/text())-2))"/>
+									</Code>
+								</Product>
+								<PackageQtyUnit>
+									<Code>CTN</Code>
+								</PackageQtyUnit>
+							</xsl:when>
+							<xsl:when test="substring($Code,2,1) ='C'">
+								<Product>
+									<Code>
+										<xsl:value-of select="substring(sku/text(),1,(string-length(sku/text())-1))"/>
+									</Code>
+								</Product>
+								<PackageQtyUnit>
+									<Code>CTN</Code>
+								</PackageQtyUnit>
+							</xsl:when>
+							<xsl:when test="$Code ='RD'">
+								<Product>
+									<Code>
+										<xsl:value-of select="substring(sku/text(),1,(string-length(sku/text())-2))"/>
+									</Code>
+								</Product>
+								<PackageQtyUnit>
+									<Code>PKG</Code>
+								</PackageQtyUnit>
+							</xsl:when>
+							<xsl:otherwise>
+								<Product>
+									<Code>
+										<xsl:value-of select="sku/text()"/>
+									</Code>
+								</Product>
+								<PackageQtyUnit>
+									<Code>UNT</Code>
+								</PackageQtyUnit>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:if>
+					
+					
                     <UnitPriceAfterDiscount>
                       <xsl:value-of select="price/text()"/>
                     </UnitPriceAfterDiscount>
