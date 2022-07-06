@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-16"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:var="http://schemas.microsoft.com/BizTalk/2003/var" exclude-result-prefixes="msxsl var s0 userCSharp" version="1.0" xmlns:s0="http://CI7Order_FF" xmlns:ns0="http://www.cargowise.com/Schemas/Universal/2011/11" xmlns:userCSharp="http://schemas.microsoft.com/BizTalk/2003/userCSharp">
 	<xsl:output omit-xml-declaration="yes" method="xml" version="1.0"/>
 	<xsl:key name="groups" match="CI7Orders_Order" use="OrderNumber"/>
@@ -20,9 +20,7 @@
 							</DataTargetCollection>
 						</DataContext>
 						<LocalProcessing>
-							<DeliveryRequiredBy>
-								<xsl:value-of select="userCSharp:ConvertDateRequiredValue(DeliveryStartDate/text())"/>
-							</DeliveryRequiredBy>
+							<DeliveryRequiredBy>REPLACEREPLACE</DeliveryRequiredBy>
 						</LocalProcessing>
 						<Order>
 							<OrderNumber>
